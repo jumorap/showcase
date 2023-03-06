@@ -1,19 +1,3 @@
-
-
-# Color
-
-{{< hint info >}}
-**Exercise**
-
-Implement a color mapping application that helps people who are color blind see the colors around them.
-{{< /hint >}}
-
-## Solution
-
-Here's an implementation of a color mapping application in P5 that can help people who are color blind see the colors around them:
-
-{{< details title="Code Implementation" open=false >}}
-{{< highlight JavaScript >}}
 // Define a color map for color blindness correction
 let colorMapArr = [
   [[0, 0, 0], "black"],
@@ -170,13 +154,5 @@ function distance(x1, y1, z1, x2, y2, z2) {
   // Calculate the distance between two colors using the Euclidean distance formula
   return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
 }
-{{< /highlight >}}
-{{< /details >}}
 
-{{< p5-iframe sketch="/showcase/sketches/color_blind.js" width="800" height="600" >}}
 
-The app works by applying a color mapping algorithm to an image that maps the original colors of the image to a new set of colors that are easier for people with color blindness to distinguish. The algorithm uses a predefined color map that maps the original colors to a set of colors that are distinguishable by people with color blindness.
-
-People with color blindness can use this app by simply viewing the color mapped image on the canvas. The app can help them to see the colors in the image more clearly and to distinguish between colors that may have previously looked the same to them. This can be particularly useful in situations where color is important, such as in art, design, or scientific visualization.
-
-It's worth noting that the app is not a perfect solution and may not work for all types of color blindness or for all people with color vision deficiency. However, it can still be a helpful tool for many people with color blindness and can help to improve their ability to perceive and distinguish between colors.
