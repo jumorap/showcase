@@ -5,3 +5,17 @@
 # Logs
 *.log
 .hugo_build.lock
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+*.sublime-workspace
+*.sublime-project
+*.swp
+*.swo
+*.swn
+*.swm
+*.swx
+*.swz

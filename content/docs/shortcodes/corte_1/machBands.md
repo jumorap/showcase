@@ -13,73 +13,61 @@ Implementation of a terrain visualization application in P5 that uses Perlin noi
 
 {{< details title="Code Implementation" open=false >}}
 {{< highlight JavaScript >}}
-let cols, rows; // Variables para el número de columnas y filas del terreno
-const scl = 20; // Escala del terreno
-const w = 1400; // Ancho del terreno
-const h = 1000; // Alto del terreno
-let flying = 0; // Variable para controlar la animación del terreno
-let terrain = []; // Arreglo para almacenar los valores de altura del terreno
+let canvasWidth, canvasHeight;
+let cols, rows;
+const scl = 20;
+const w = 1400;
+const h = 1000;
+let flying = 0;
+let terrain = [];
+
+const noiseScale = 0.1;
+const noiseStrength = 100;
+let lightDirection;
+let gradient = [];
 
 function setup() {
-createCanvas(600, 600, WEBGL); // Crear un canvas 3D
-cols = w / scl; // Calcular el número de columnas
-rows = h / scl; // Calcular el número de filas
+canvasWidth = windowWidth;
+canvasHeight = windowHeight;
+createCanvas(canvasWidth, canvasHeight, WEBGL);
 
-    // Inicializar el terreno con valores predeterminados
-    for (let x = 0; x < cols; x++) {
-        terrain[x] = [];
-        for (let y = 0; y < rows; y++) {
-            terrain[x][y] = 0;
+    gradient = [color(0, 0, 0), color(0, 0, 255)];
+
+    cols = w / scl;
+    rows = h / scl;
+
+    lightDirection = createVector(1, -1, 0);
+
+    for (let y = 0; y < rows; y++) {
+        terrain[y] = [];
+        for (let x = 0; x < cols; x++) {
+            terrain[y][x] = 0;
         }
     }
 }
 
 function draw() {
-// Actualizar el terreno
-updateTerrain();
+background(100, 150, 100);
 
-    // Dibujar el terreno
-    drawTerrain();
-}
-
-function updateTerrain() {
-/**
-* Actualizar el terreno utilizando ruido Perlin para generar valores de altura
-* @type {number} flying - Variable para controlar la animación del terreno
-*/
-flying -= 0.1; // Cambiar la animación del terreno
-let yoff = flying;
+    camera(0, -canvasHeight/2, canvasHeight/2 / tan(PI/6), 0, 0, 0, 0, 1, 0);
 
     for (let y = 0; y < rows; y++) {
-        let xoff = 0;
         for (let x = 0; x < cols; x++) {
-            // Generar valores de altura para cada punto del terreno utilizando ruido Perlin
-            terrain[x][y] = map(noise(xoff, yoff), 0, 1, -100, 100);
-            xoff += 0.2; // Incrementar el valor de x para generar diferentes patrones de ruido
-        }
-        yoff += 0.2; // Incrementar el valor de y para generar diferentes patrones de ruido
-    }
-}
+            terrain[y][x] = map(noise(x * noiseScale, y * noiseScale, flying), 0, 1, 0, 1);
+            terrain[y][x] = pow(terrain[y][x], 2) * noiseStrength;
 
-function drawTerrain() {
-/**
-* Dibujar el terreno utilizando triángulos conectados en forma de zigzag
-*/
-background(0); // Establecer el fondo negro
-translate(0, 50); // Mover el terreno hacia arriba para que no se corte en el borde inferior
-rotateX(PI / 3); // Rotar el terreno para tener una vista 3D
-fill(200, 200, 200, 50); // Establecer el color y la opacidad de las caras del terreno
-translate(-w / 2, -h / 2); // Centrar el terreno en el canvas
+            let colorVal = lerpColor(gradient[0], gradient[1], terrain[y][x]);
+            fill(colorVal);
 
-    for (let y = 0; y < rows - 1; y++) {
-        beginShape(TRIANGLE_STRIP); // Comenzar un nuevo zigzag
-        for (let x = 0; x < cols; x++) {
-            // Agregar dos vértices a la vez para conectar el zigzag
-            vertex(x * scl, y * scl, terrain[x][y]);
-            vertex(x * scl, (y + 1) * scl, terrain[x][y + 1]);
+            push();
+            translate(x * scl - w/2, y * scl - h/2, terrain[y][x]);
+            box(scl, scl, terrain[y][x]);
+            pop();
         }
-        endShape(); // Finalizar el zigzag
     }
+
+
+    flying -= 0.1;
 }
 
 {{< /highlight >}}
