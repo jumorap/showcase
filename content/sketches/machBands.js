@@ -21,8 +21,8 @@ const MAX_HEIGHT_WHITE = 40;
 const MEDIUM_HEIGHT_BROWN = 30;
 const MAX_HEIGHT_GREEN = 25;
 
-const wMap = 800;
-const hMap = 800;
+const wMap = 700;
+const hMap = 700;
 
 function setup() {
     createCanvas(wMap, hMap, WEBGL);

@@ -164,7 +164,7 @@ function mouseReleased() {
 {{< /details >}}
 
 
-{{< p5-iframe sketch="/showcase/sketches/machBands.js" width="824" height="824" >}}
+{{< p5-iframe sketch="/showcase/sketches/machBands.js" width="724" height="724" >}}
 
 ## Description
 
