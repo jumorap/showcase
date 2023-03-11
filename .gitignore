@@ -7,7 +7,7 @@
 .hugo_build.lock
 
 # JetBrains IDEs
-.idea/
+/.idea/
 *.iml
 *.ipr
 *.iws
