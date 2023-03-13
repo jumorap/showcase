@@ -1,3 +1,4 @@
+
 // Define a color map for color blindness correction
 let colorMapArr = [
   [[0, 0, 0], "black"],
@@ -45,57 +46,150 @@ let colorMapArr = [
 ];
 
 
-let input, button, greeting, img, originalimg;
+//See: https://gist.github.com/Lokno/df7c3bfdc9ad32558bb7
+let colorMats = {
+  'Normal vision':
+    [[1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1]],
+  // Red-Blind
+  'Protanopia':
+    [[0.567, 0.433, 0.000],
+    [0.558, 0.442, 0.000],
+    [0.000, 0.242, 0.758]],
+  // Red-Weak
+  'Protanomaly':
+    [[0.817, 0.183, 0.000],
+    [0.333, 0.667, 0.000],
+    [0.000, 0.125, 0.875]],
+  // Green-Blind
+  'Deuteranopia':
+    [[0.625, 0.375, 0.000],
+    [0.700, 0.300, 0.000],
+    [0.000, 0.300, 0.700]],
+  // Green-Weak
+  'Deuteranomaly': [[0.800, 0.200, 0.000],
+  [0.258, 0.742, 0.000],
+  [0.000, 0.142, 0.858]],
+  // Blue-Blind
+  'Tritanopia': [[0.950, 0.050, 0.000],
+  [0.000, 0.433, 0.567],
+  [0.000, 0.475, 0.525]],
+  // Blue-Weak
+  'Tritanomaly': [[0.967, 0.033, 0.00],
+  [0.00, 0.733, 0.267],
+  [0.00, 0.183, 0.817]],
+  // Monochromacy
+  'Achromatopsia': [[0.299, 0.587, 0.114],
+  [0.299, 0.587, 0.114],
+  [0.299, 0.587, 0.114]],
+  // Blue Cone Monochromacy
+  'Achromatomaly': [[0.618, 0.320, 0.062],
+  [0.163, 0.775, 0.062],
+  [0.163, 0.320, 0.516]]
+};
+
+
+let input, button, img, originalimg;
+let imgURL = 'https://http2.mlstatic.com/D_NQ_NP_866685-MLC29350122842_022019-O.jpg';
+let canvassize = [680, 650];
 let usedColors = {};
+let typeSelect;
 
 function preload() {
-  img = loadImage('https://http2.mlstatic.com/D_NQ_NP_866685-MLC29350122842_022019-O.jpg');
-  originalimg = loadImage('https://http2.mlstatic.com/D_NQ_NP_866685-MLC29350122842_022019-O.jpg');
+  img = loadImage(imgURL);
+  originalimg = loadImage(imgURL);
+  input = createInput();
+  typeSelect = createRadio();
 }
 
 function setup() {
   // Create a canvas to display the image and color mapping
-  createCanvas(img.width, img.height * 2);
-  input = createInput();
+  createCanvas(canvassize[0], canvassize[1]);
+
+  // Create a text input and button
   input.position(5, 5);
   button = createButton('imge URL or reset');
   button.position(input.x + input.width, 5);
+
+  // Display the original image
+  program();
+
+  // Create a radio button to select the color blindness type
+  for (i in colorMats) {
+    typeSelect.option(i);
+  }
+  typeSelect.style('font-size', '10px');
+  typeSelect.position(0, 40);
+  typeSelect.value('Normal vision');
+
+  // When the button is pressed, call the program function
   button.mousePressed(program);
-  imageandtext();
-  image(originalimg, originalimg.width, 0);
+  typeSelect.changed(program);
+}
+
+function mouseClicked() {
+  let color = img.get(mouseX, mouseY - 60);
+  let color2 = originalimg.get(mouseX, mouseY - 60);
+
+  if (color[3] != 0 && color2[3] !== 0) {
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text('You clicked!!', canvassize[0] / 2, originalimg.height + 100);
+    fill(color);
+    rect(canvassize[0] / 2 - 80, originalimg.height + 125, 30, 20);
+    fill(color2);
+    rect(canvassize[0] / 2 + 50, originalimg.height + 125, 30, 20);
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text('Closest color: ', canvassize[0] / 2, originalimg.height + 200);
+    let closestcolor = findClosestColor(color2[0], color2[1], color2[2]);
+    fill(closestcolor[0]);
+    rect(canvassize[0] / 2 + 50, originalimg.height + 225, 30, 20);
+    
+    fill(255);
+    rect(canvassize[0] / 2 - 150, originalimg.height + 225, 200, 20);
+    
+    fill(0);
+    textAlign(RIGHT, RIGHT);
+    text(colorMapArr[closestcolor[1]], canvassize[0] / 2, originalimg.height + 235);
+  }
+
 }
 
 function program() {
+  background(255);
+  fill(0);
+  textAlign(CENTER, CENTER);
+  text('Loading...', canvassize[0] / 4, 100);
   imgURL = input.value() || 'https://http2.mlstatic.com/D_NQ_NP_866685-MLC29350122842_022019-O.jpg';
 
   loadImage(imgURL, myimg => {
     img = myimg;
     imageandtext();
+    fill(0);
+    textAlign(CENTER, CENTER);
+    text('Color blindness type', canvassize[0] / 4, img.height + 100);
 
     loadImage(imgURL, newimg => {
-      image(newimg, newimg.width, 0);
+      originalimg = newimg;
+      newimg.resize(canvassize[0] / 2, 0);
+      image(newimg, canvassize[0] / 2, 60);
+      fill(0);
+      textAlign(CENTER, CENTER);
+      text('Original image', canvassize[0] - canvassize[0] / 4, originalimg.height + 100);
     });
 
+    typeSelect.position(0, 40);
   });
-
-
 }
 
 function imageandtext() {
-  resizeCanvas(Math.max(img.width * 2, 500), img.height + 210);
   background(255);
   colorMap(img);
-  image(img, 0, 0);
-
-  for (let i in usedColors) {
-    let y = img.height + 5 + 20 * (i % 10);
-    let x = 100 * floor(i / 10);
-    fill(colorMapArr[i][0]);
-    rect(x, y, 30, 20);
-    fill(0);
-    textAlign(LEFT, CENTER);
-    text(colorMapArr[i][1], x + 40, y + 10);
-  }
+  img.resize(canvassize[0] / 2, 0);
+  resizeCanvas(canvassize[0], img.height + 250);
+  image(img, 0, 60);
 }
 
 
@@ -113,35 +207,54 @@ function colorMap(img) {
     let g = pixels[i + 1];
     let b = pixels[i + 2];
 
-    // Find the closest color in the color map to the pixel's color
-    let closestColor = findClosestColor(r, g, b, colorMapArr);
-    usedColors[closestColor[1]] = closestColor[0];
+    let newRGB = transform(r, g, b);
 
-    // Update the pixel's color to the closest color in the color map
-    pixels[i] = closestColor[0][0];
-    pixels[i + 1] = closestColor[0][1];
-    pixels[i + 2] = closestColor[0][2];
+    // Set the modified RGB values back in the pixel array
+    pixels[i] = newRGB[0];
+    pixels[i + 1] = newRGB[1];
+    pixels[i + 2] = newRGB[2];
   }
 
   img.updatePixels();
 
 }
 
-function findClosestColor(r, g, b, colorMap) {
+function transform(r, g, b) {
+  // Convert RGB values to LMS values
+  let typevalue = typeSelect.value() || "Normal vision";
+  return multiplyMatrices(colorMats[typevalue], [[r], [g], [b]]);
+}
+
+function multiplyMatrices(matrixA, matrixB) {
+  let result = [];
+  for (let i = 0; i < matrixA.length; i++) {
+    result[i] = [];
+    for (let j = 0; j < matrixB[0].length; j++) {
+      let sum = 0;
+      for (let k = 0; k < matrixA[0].length; k++) {
+        sum += matrixA[i][k] * matrixB[k][j];
+      }
+      result[i][j] = sum;
+    }
+  }
+  return result;
+}
+
+function findClosestColor(r, g, b) {
   // Initialize variables to keep track of the closest color and its distance
-  let closestColor = colorMap[0];
+  let closestColor = colorMapArr[0];
   let lastindex = 0;
-  let closestDist = distance(r, g, b, colorMap[0][0][0], colorMap[0][0][1], colorMap[0][0][2]);
+  let closestDist = distance(r, g, b, colorMapArr[0][0][0], colorMapArr[0][0][1], colorMapArr[0][0][2]);
 
   // Loop through each color in the color map
-  for (let i = 1; i < colorMap.length; i++) {
+  for (let i = 1; i < colorMapArr.length; i++) {
     // Calculate the distance between the pixel's color and the color in the color map
-    let dist = distance(r, g, b, colorMap[i][0][0], colorMap[i][0][1], colorMap[i][0][2]);
+    let dist = distance(r, g, b, colorMapArr[i][0][0], colorMapArr[i][0][1], colorMapArr[i][0][2]);
 
     // If the distance is smaller than the previous closest distance, update the closest color and distance
     if (dist <= closestDist) {
       lastindex = i;
-      closestColor = colorMap[i][0];
+      closestColor = colorMapArr[i][0];
       closestDist = dist;
     }
   }
@@ -154,5 +267,3 @@ function distance(x1, y1, z1, x2, y2, z2) {
   // Calculate the distance between two colors using the Euclidean distance formula
   return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
 }
-
-
