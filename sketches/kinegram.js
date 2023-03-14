@@ -6,9 +6,13 @@ let canvassizey = 575;
 let imagesize = canvassizex / 2;
 let tileCount = 0;
 let mycolor = [0, 0, 0];
+let speed = 1;
+let input;
+let button;
 
 function preload() {
   pic = loadImage('/showcase/sketches/kinegram.jpg');
+  input = createInput();
 }
 
 function setup() {
@@ -23,12 +27,18 @@ function setup() {
   typeSelect.position(0, 0);
   typeSelect.value('Normal vision');
   typeSelect.changed(program);
-
+  
   // create a slider element and position it on the canvas
   const slider = createSlider(-300, 300, tileCount);
   slider.position(200, 0);
   slider.input(() => {
     tileCount = slider.value();
+  });
+
+  const speedslider = createSlider(1, 10, speed);
+  speedslider.position(200, 30);
+  speedslider.input(() => {
+    speed = speedslider.value();
   });
 
   const r = createSlider(0, 255, red);
@@ -49,6 +59,18 @@ function setup() {
     mycolor[2] = b.value();
   });
   
+  
+  // Create a text input and button
+  input.position(0, canvassizey - 20);
+  button = createButton('imge URL or reset');
+  button.position(input.x + input.width, canvassizey - 20);
+  button.mousePressed(buttonpressed);
+}
+
+function buttonpressed() {
+  url = input.value() || '/showcase/sketches/kinegram.jpg';
+  pic = loadImage(url);
+  imagesize = canvassizex / 2;
 }
 
 function program() {
@@ -89,7 +111,7 @@ function draw() {
   if (x > canvassizex) {
     x = 0
   } else {
-    x = x + 0.5
+    x = x + speed *0.2
   }
 
 }
