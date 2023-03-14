@@ -103,6 +103,7 @@ function updateImage() {
 function applyConvolution() {
     img.loadPixels();
     let pix = img.pixels;
+    let copy = new Array(pix.length).fill(0);
     let sup = 255;
     let inf = 0;
     let kernelname = typeSelect.value() || "identity";
@@ -122,10 +123,16 @@ function applyConvolution() {
                 }
             }
 
-            pix[index] = constrain(r, inf, sup);
-            pix[index + 1] = constrain(g, inf, sup);
-            pix[index + 2] = constrain(b, inf, sup);
+            copy[index] = constrain(r, inf, sup);
+            copy[index + 1] = constrain(g, inf, sup);
+            copy[index + 2] = constrain(b, inf, sup);
         }
+    }
+
+    for (let i = 0; i < pix.length; i+=4) {
+        pix[i] = copy[i];
+        pix[i + 1] = copy[i + 1];
+        pix[i + 2] = copy[i + 2];
     }
 
     img.updatePixels();
