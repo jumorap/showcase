@@ -110,19 +110,38 @@ function pixelateBySpatialCoherence(video, tileCount) {
   const tileSize = width/tileCount;
   
   video.loadPixels();
+  let randomPixelIndex = null;
   
   for (let x = 0; x < video.width; x += tileSize) {
     for (let y = 0; y < video.height; y += tileSize) {
       const i = (y * video.width + x) * 4;
-      const r = video.pixels[i];
-      const g = video.pixels[i+1];
-      const b = video.pixels[i+2];
+      
+      // Get the range of pixels within the current tile
+      const pixels = [];
+      for (let tx = 0; tx < tileSize; tx++) {
+        for (let ty = 0; ty < tileSize; ty++) {
+          const ii = ((y+ty) * video.width + (x+tx)) * 4;
+          pixels.push({
+            r: video.pixels[ii],
+            g: video.pixels[ii+1],
+            b: video.pixels[ii+2]
+          });
+        }
+      }
+      
+      // Select a random color from the current tile
+      if(!randomPixelIndex){
+        randomPixelIndex = floor(random(pixels.length))
+      }
+      const randomPixel = pixels[randomPixelIndex];
+
       noStroke();
-      fill(r, g, b);
+      fill(randomPixel.r, randomPixel.g, randomPixel.b);
       rect(x, y, tileSize, tileSize);
     }
   }
 }
+
 
 function runBenchmark() {
   const startTime = performance.now();
@@ -148,4 +167,3 @@ function runBenchmark() {
     Elapsed time (color): ${elapsedTimeColor} ms
   `);
 }
-
