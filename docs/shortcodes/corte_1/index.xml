@@ -11,4 +11,4 @@ Solution: # Code Implementation let pic let pic2 let x = 0 let canvassizex = 680
 Temporal coherence is the visual phenomenon present all across nature whereby the perceived color of a given point within a region of interest tend to vary more according to the elapsed time passed between two given moments.
 Implement an animation with keyframes using the nub library for Processing (Java).
 Solution # Implementation of an animation with keyframes using the nub library for Processing (Java):
-Code Implementation let videoFile; let pixelateByColor = true; let tileCount = 10; function setup() { createCanvas(400, 400); // create a checkbox element and position it on the canvas const checkbox = createCheckbox(&amp;#39;Pixelate by color&amp;#39;, pixelateByColor); checkbox.</description></item></channel></rss>
+Code Implementation let videoFile; let pixelateType = null; let tileCount = 10; function setup() { createCanvas(800, 400); // create a file input element and position it on the canvas const fileInput = createFileInput(handleFile); fileInput.</description></item></channel></rss>

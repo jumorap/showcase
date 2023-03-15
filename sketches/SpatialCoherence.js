@@ -1,57 +1,87 @@
 let videoFile;
-let pixelateByColor = true;
+let pixelateType = null;
 let tileCount = 10;
 
 function setup() {
-  createCanvas(400, 400);
-
-  // create a checkbox element and position it on the canvas
-  const checkbox = createCheckbox('Pixelate by color', pixelateByColor);
-  checkbox.position(10, 50);
-  checkbox.changed(() => {
-    pixelateByColor = !pixelateByColor;
-  });
+  createCanvas(800, 400);
 
   // create a file input element and position it on the canvas
   const fileInput = createFileInput(handleFile);
   fileInput.position(10, 10);
 
-  // create a slider element and position it on the canvas
-  const slider = createSlider(5, 30, tileCount);
-  slider.position(10, 90);
-  slider.input(() => {
-    tileCount = slider.value();
+  // create a button element and position it on the canvas
+  const button = createButton("A");
+  button.position(10, 50);
+  button.mousePressed(() => {
+    pixelateType = "color";
   });
 
   // create a button element and position it on the canvas
-  const button = createButton('Benchmark');
-  button.position(10, 130);
-  button.mousePressed(runBenchmark);
+  const button2 = createButton("C");
+  button2.position(30, 50);
+  button2.mousePressed(() => {
+    pixelateType = "coherence";
+  });
+  
+  const button3 = createButton("Benchmark");
+  button3.position(50, 50);
+  button3.mousePressed(runBenchmark);
+
+
+  // create a button element and position it on the canvas
+  const button4 = createButton("+");
+  button4.position(10, 80);
+  button4.mousePressed(() => {
+    tileCount = min(tileCount + 5, 50);
+  });
+
+  // create a button element and position it on the canvas
+  const button5 = createButton("-");
+  button5.position(30, 80);
+  button5.mousePressed(() => {
+    tileCount = max(tileCount - 5, 5);
+  });
 }
 
 function draw() {
-  // draw the pixelated video file on the canvas
+  // draw the original video file on the left side of the canvas
   if (videoFile) {
-    if (pixelateByColor) {
+    image(videoFile, 0, 0, width / 2, height);
+    
+    if (key === 'c' || key === 'C') {
+      pixelateType = "coherence";
+    } else if (key === 'a' || key === 'A') {
+      pixelateType = "color";
+    } else if (key === '+') {
+       tileCount = min(tileCount + 5, 40);
+    } else if (key === "-"){
+      tileCount = max(tileCount - 5, 5);
+    }
+
+    // draw the pixelated video file on the right side of the canvas
+    push();
+    translate(width / 2, 0);
+    if (pixelateType === "color") {
       pixelateByColorAverage(videoFile, tileCount);
-    } else {
+    } else if (pixelateType === "coherence") {
       pixelateBySpatialCoherence(videoFile, tileCount);
     }
+    pop();
   }
 }
 
 function handleFile(file) {
   // load the uploaded video file and store it in the 'videoFile' variable
   videoFile = createVideo(file.data);
-  videoFile.hide();
   videoFile.loop();
+  videoFile.hide();
 }
 
 function pixelateByColorAverage(video, tileCount) {
   const tileSize = width/tileCount;
-
+  
   video.loadPixels();
-
+  
   for (let x = 0; x < video.width; x += tileSize) {
     for (let y = 0; y < video.height; y += tileSize) {
       const i = (y * video.width + x) * 4;
@@ -78,9 +108,9 @@ function pixelateByColorAverage(video, tileCount) {
 
 function pixelateBySpatialCoherence(video, tileCount) {
   const tileSize = width/tileCount;
-
+  
   video.loadPixels();
-
+  
   for (let x = 0; x < video.width; x += tileSize) {
     for (let y = 0; y < video.height; y += tileSize) {
       const i = (y * video.width + x) * 4;
@@ -95,31 +125,27 @@ function pixelateBySpatialCoherence(video, tileCount) {
 }
 
 function runBenchmark() {
-if (!videoFile) {
-return;
-}
-
-const iterations = 10;
-const tileSize = width/tileCount;
-
-let totalTime = 0;
-for (let i = 0; i < iterations; i++) {
-const start = millis();
-if (!pixelateByColor) {
-pixelateBySpatialCoherence(videoFile, tileCount);
-} else {
-pixelateByColorAverage(videoFile, tileCount);
-}
-const end = millis();
-totalTime += (end - start);
-}
-
-const averageTime = totalTime/iterations;
-
-  if(!pixelateByColor){
-    console.log("Spatial Coherence time: ", averageTime);    
-  }else{
-    console.log("Color Coherence time: ", averageTime);
+  const startTime = performance.now();
+  
+  // run pixelateByColorAverage 100 times
+  for (let i = 0; i < 100; i++) {
+    pixelateByColorAverage(videoFile, tileCount);
   }
-
+  
+  const elapsedTimeColor = performance.now() - startTime;
+  
+  // reset start time
+  const startTime2 = performance.now();
+  
+  // run pixelateBySpatialCoherence 100 times
+  for (let i = 0; i < 100; i++) {
+    pixelateBySpatialCoherence(videoFile, tileCount);
+  }
+  
+  const elapsedTimeCoherence = performance.now() - startTime2;
+  alert(`
+    Elapsed time (coherence): ${elapsedTimeCoherence} ms
+    Elapsed time (color): ${elapsedTimeColor} ms
+  `);
 }
+
