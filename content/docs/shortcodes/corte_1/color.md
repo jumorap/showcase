@@ -326,3 +326,81 @@ The dropdown menu includes the following options for color blindness correction:
 - Achromatomaly
 
 The color map can be used to convert color names to RGB values.
+
+
+
+{{< hint info >}}
+**Exercise**
+
+Research other color models such as HSL, HSB, XYZ.
+{{< /hint >}}
+
+## Solution
+
+1. HSL (Hue, Saturation, Lightness):
+
+HSL is a color model that describes colors in terms of three attributes: hue, saturation, and lightness. Hue is the actual color of the light, while saturation represents the intensity or purity of the hue. Lightness refers to the amount of white or black added to the color. The HSL color model is often used in computer graphics, web design, and image editing software.
+
+2. HSB (Hue, Saturation, Brightness):
+
+HSB is another color model that uses hue and saturation to define colors, but it replaces lightness with brightness. Brightness refers to the overall intensity of the color, regardless of its hue or saturation. This color model is commonly used in design software, such as Adobe Photoshop and Illustrator.
+
+3. XYZ (CIE 1931 color space):
+
+The XYZ color model is based on the CIE 1931 color space, which was developed by the International Commission on Illumination (CIE). It defines colors in terms of three dimensions: X, Y, and Z. These dimensions correspond to the perception of color in the human eye, with X representing the response to red, Y representing the response to green, and Z representing the response to blue. The XYZ color model is often used in color management, color correction, and color conversion applications.
+
+Each of these color models has its own strengths and weaknesses, and is suited to different applications.
+
+Here's an interactive p5.js example that lets the user adjust the hue, saturation, and lightness of a color using sliders:
+
+
+{{< details title="Code Implementation" open=false >}}
+{{< highlight JavaScript >}}
+let hueSlider, satSlider, lightSlider;
+
+function setup() {
+  createCanvas(400, 400);
+  
+  // Create sliders for hue, saturation, and lightness
+  hueSlider = createSlider(0, 360, 0);
+  hueSlider.position(20, 20);
+  satSlider = createSlider(0, 100, 50);
+  satSlider.position(20, 50);
+  lightSlider = createSlider(0, 100, 50);
+  lightSlider.position(20, 80);
+}
+
+function draw() {
+  // Get the current values of the sliders
+  let hue = hueSlider.value();
+  let sat = satSlider.value();
+  let light = lightSlider.value();
+  
+  // Set the background color based on the current values of the sliders
+  colorMode(HSL);
+  background(hue, sat, light);
+  
+  // Draw a rectangle with the current color values
+  noStroke();
+  fill(hue, sat, light);
+  rect(150, 150, 100, 100);
+  
+  // Display the current values of the sliders
+  textAlign(LEFT, CENTER);
+  textSize(16);
+  fill(0);
+  text("Hue: " + hue, hueSlider.x + hueSlider.width + 10, hueSlider.y + hueSlider.height / 2);
+  text("Saturation: " + sat + "%", satSlider.x + satSlider.width + 10, satSlider.y + satSlider.height / 2);
+  text("Lightness: " + light + "%", lightSlider.x + lightSlider.width + 10, lightSlider.y + lightSlider.height / 2);
+}
+
+{{< /highlight >}}
+{{< /details >}}
+
+{{< p5-iframe sketch="/showcase/sketches/HSL.js" width="430" height="430" >}}
+
+
+The HSL model can be represented in the next bicone:
+
+![HSL bicone](/showcase/sketches/doblecone.png)
+[From Wikipedia](https://es.wikipedia.org/wiki/Modelo_de_color_HSL#/media/Archivo:Doble_cono_de_la_coloraci%C3%B3n_HSL.png).
