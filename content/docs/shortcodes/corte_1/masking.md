@@ -343,7 +343,7 @@ The algorithm works by dividing the color space into a grid of pixels, where eac
 
 The advantage of random dithering is that it is fast and simple to implement. However, the resulting image may have visible artifacts, such as color banding or noise, especially if the available palette has a small number of colors or if the original image has subtle color gradients.
 
-Overall, random dithering can be a useful technique for reducing the number of colors in an image, but it may not be the best choice for high-quality or precise color reproduction.
+Overall, random dithering can be a useful technique for reducing the number of colors in an image and generate kind of noise on it, but it may not be the best choice for high-quality or precise color reproduction.
 
 
 {{< hint info >}}
