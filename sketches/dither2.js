@@ -9,6 +9,7 @@ function preload() {
 }
 
 function setup() {
+    frameRate(10);
     createCanvas(canvassizex, canvassizey);
     onleftpressed();
     const slider = createSlider(1, 20, tileCount);
