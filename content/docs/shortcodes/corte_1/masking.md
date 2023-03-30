@@ -152,6 +152,18 @@ Research & implement some dither visual apps.
 {{< /hint >}}
 
 # Solution:
+
+First of all, we shall see how to reduce the number of colors of an image without applying a dithering algorithm, naturally we will apply some color reduction function that map each color from each pixel to the closest in the reduced mapping, the below p5 implementation show the naivest way of reducing color on an image without using a dithering algorithm.
+
+{{< details title="Code Implementation" open=false >}}
+{{< highlight JavaScript >}}
+// your code here
+{{< /highlight >}}
+{{< /details >}}
+
+{{< p5-iframe sketch="/showcase/sketches/naivedither.js" width="700" height="600" >}}
+
+
 ## Floyd-Steinberg Dithering
 
 {{< details title="Code Implementation" open=false >}}
