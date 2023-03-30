@@ -722,7 +722,7 @@ function rotatehueofcolor(c) {
 
 {{< p5-iframe sketch="/showcase/sketches/brightness.js" width="450" height="510" >}}
 
-The given code is a Lightness tool that allows the user to adjust the hue, saturation, and brightness of an image using sliders. It applies a color matrix to the image to rotate the hue, which is controlled by the hueSlider slider. The saturation and brightness of the image are also adjusted by the saturationSlider and brightnessSlider, respectively.
+The above code is a Lightness tool that allows the user to adjust the hue, saturation, and brightness of an image using sliders. It applies a color matrix to the image to rotate the hue, which is controlled by the hueSlider slider. The saturation and brightness of the image are also adjusted by the saturationSlider and brightnessSlider, respectively.
 
 The color matrix used to rotate the hue is based on the HSL (hue, saturation, lightness) color model, where the hue is rotated around the color wheel. The matrix is calculated using the angle of rotation provided by the hueSlider and is used to transform the RGB color values of each pixel in the image. The resulting colors are then adjusted based on the saturation and brightness sliders.
 
