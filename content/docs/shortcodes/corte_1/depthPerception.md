@@ -133,6 +133,18 @@ The code is using the Ebbinghaus illusion to create the appearance of the monocu
 
 The illusion works because our brains use size constancy to interpret the size of objects in the world around us. Size constancy is the ability to perceive the true size of an object even when it appears smaller or larger due to its distance from us. The brain uses various visual cues, including the size of surrounding objects, to determine the true size of an object.
 
+
+### Previuos Work
+The Ebbinghaus illusion has been extensively studied in the field of visual perception and has been used in various experiments to study how the brain processes visual information. It has also been used in the field of cognitive psychology to study perception and attention.
+
+### Future Work
+Future work on the Ebbinghaus illusion and other monocular cues could involve developing new techniques for creating realistic 3D images using only 2D media. This could have practical applications in fields such as advertising, where creating compelling visual displays is crucial.
+
+Additionally, further research could explore how the brain processes monocular cues and how these cues can be used to create more realistic virtual reality environments. This could lead to the development of more effective VR systems that provide a more immersive and realistic experience for users.
+
+Overall, the study of monocular cues and their applications in various fields has the potential to significantly impact how we perceive and interact with the world around us.
+
+
 ## Usages
 
 Applications of this illusion include optical illusions, art, and design. Optical illusions use visual tricks to create the impression of movement, depth, or other effects that do not actually exist. In art and design, the use of monocular cues such as size constancy can help create a sense of depth and realism in two-dimensional images.
