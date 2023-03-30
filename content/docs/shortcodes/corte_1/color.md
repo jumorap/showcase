@@ -417,3 +417,9 @@ The HSL model can be represented in the next bicone:
 
 ![HSL bicone](/showcase/sketches/doblecone.png)
 [From Wikipedia](https://es.wikipedia.org/wiki/Modelo_de_color_HSL#/media/Archivo:Doble_cono_de_la_coloraci%C3%B3n_HSL.png).
+
+
+## Possible Future Work
+
+One possible future work could be to implemend an application that shows interactively the points in the bicone that describe a color while changing the sliders, even to use more figures to ilustrate the behavior of the colors in different models.
+

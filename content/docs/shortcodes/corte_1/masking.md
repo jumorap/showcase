@@ -814,7 +814,7 @@ The drawupdate() function is called every time the user interacts with any of th
 
 Overall, the code provides a simple and interactive way to adjust the color and brightness of an image, making it a useful tool for image editing and manipulation.
 
-## Posibble future work
+## Possible future work
 
 One possible future work related to this code could be the development of a photo editing application that allows users to modify the hue, saturation, and brightness of images. The code provided could serve as the basis for the image processing functions of the application.
 
