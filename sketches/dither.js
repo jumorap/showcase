@@ -2,6 +2,7 @@ let venus;
 let canvassizex = 680;
 let canvassizey = 575;
 let tileCount = 1;
+let globalimg;
 
 function preload() {
     venusOriginal = loadImage("/showcase/sketches/venus.jpg");
@@ -10,98 +11,86 @@ function preload() {
 function setup() {
     createCanvas(canvassizex, canvassizey);
     resizeCanvas(canvassizex, venusOriginal.height * 2 + 10);
-    const slider = createSlider(1, 5, tileCount);
-    slider.position(0, venusOriginal.height*2 + 5);
+    const slider = createSlider(1, 10, tileCount);
+    slider.position(0, venusOriginal.height * 2 + 5);
     slider.input(() => {
         tileCount = slider.value();
         drawImages();
     });
-    drawImages();  
+    drawImages();
 }
 
-function drawImages(){
+function drawImages() {
     image(venusOriginal, 0, 0);
     loadImage("/showcase/sketches/venus.jpg", img => {
-        makeDithered(img, tileCount);
-        img.resize(canvassizex, 0);
-        image(img, 0, venusOriginal.height);
+        globalimg = img;
+        makeDithered(tileCount);
+        fill(255);
+        rect(5, venusOriginal.height * 2 - 30, 200, 20);
+        fill(0);
+        text("Using:" + pow(tileCount+1,3)+" colors!", 15, venusOriginal.height * 2 - 18);
     });
-}
-
-function imageIndex(img, x, y) {
-    return 4 * (x + y * img.width);
-}
-
-function getColorAtindex(img, x, y) {
-    let idx = imageIndex(img, x, y);
-    let pix = img.pixels;
-    let red = pix[idx];
-    let green = pix[idx + 1];
-    let blue = pix[idx + 2];
-    let alpha = pix[idx + 3];
-    return color(red, green, blue, alpha);
-}
-
-function setColorAtIndex(img, x, y, clr) {
-    let idx = imageIndex(img, x, y);
-
-    let pix = img.pixels;
-    pix[idx] = red(clr);
-    pix[idx + 1] = green(clr);
-    pix[idx + 2] = blue(clr);
-    pix[idx + 3] = alpha(clr);
 }
 
 // Finds the closest step for a given value
 // The step 0 is always included, so the number of steps
 // is actually steps + 1
-function closestStep(max, steps, value) {
+function closestStep(steps, value) {
     return round(steps * value / 255) * floor(255 / steps);
 }
 
-function makeDithered(img, steps) {
-    img.loadPixels();
+function makeDithered(tileCount) {
+    
+    globalimg.loadPixels();
 
-    for (let y = 0; y < img.height; y++) {
-        for (let x = 0; x < img.width; x++) {
-            let clr = getColorAtindex(img, x, y);
-            let oldR = red(clr);
-            let oldG = green(clr);
-            let oldB = blue(clr);
-            let newR = closestStep(255, steps, oldR);
-            let newG = closestStep(255, steps, oldG);
-            let newB = closestStep(255, steps, oldB);
+    let pixs = globalimg.pixels;
 
-            let newClr = color(newR, newG, newB);
-            setColorAtIndex(img, x, y, newClr);
+    for (let y = 0; y < globalimg.height; y++) {
+        for (let x = 0; x < globalimg.width; x++) {
+            let index = (x + y * globalimg.width) * 4;
+            let oldR = pixs[index];
+            let oldG = pixs[index + 1];
+            let oldB = pixs[index + 2];
 
-            let errR = oldR - newR;
-            let errG = oldG - newG;
-            let errB = oldB - newB;
+            let newR = closestStep(tileCount, oldR);
+            let newG = closestStep(tileCount, oldG);
+            let newB = closestStep(tileCount, oldB);
 
-            distributeError(img, x, y, errR, errG, errB);
+            pixs[index] = newR;
+            pixs[index + 1] = newG;
+            pixs[index + 2] = newB;
+
+            let quant_error_R = oldR - newR;
+            let quant_error_G = oldG - newG;
+            let quant_error_B = oldB - newB;
+
+            if (x < globalimg.width - 1) {
+                pixs[index + 4] += quant_error_R * 7 / 16;
+                pixs[index + 5] += quant_error_G * 7 / 16;
+                pixs[index + 6] += quant_error_B * 7 / 16;
+            }
+
+            if (x > 0 && y < globalimg.height - 1) {
+                pixs[index - 4 + width * 4] += quant_error_R * 3 / 16;
+                pixs[index - 3 + width * 4] += quant_error_G * 3 / 16;
+                pixs[index - 2 + width * 4] += quant_error_B * 3 / 16;
+            }
+
+            if (y < globalimg.height - 1) {
+                pixs[index + width * 4] += quant_error_R * 5 / 16;
+                pixs[index + width * 4 + 1] += quant_error_G * 5 / 16;
+                pixs[index + width * 4 + 2] += quant_error_B * 5 / 16;
+            }
+
+            if (x < globalimg.width - 1 && y < globalimg.height - 1) {
+                pixs[index + 4 + width * 4] += quant_error_R * 1 / 16;
+                pixs[index + 5 + width * 4] += quant_error_G * 1 / 16;
+                pixs[index + 6 + width * 4] += quant_error_B * 1 / 16;
+            }
         }
     }
 
-    img.updatePixels();
-}
-
-function distributeError(img, x, y, errR, errG, errB) {
-    addError(img, 7 / 16.0, x + 1, y, errR, errG, errB);
-    addError(img, 3 / 16.0, x - 1, y + 1, errR, errG, errB);
-    addError(img, 5 / 16.0, x, y + 1, errR, errG, errB);
-    addError(img, 1 / 16.0, x + 1, y + 1, errR, errG, errB);
-}
-
-function addError(img, factor, x, y, errR, errG, errB) {
-    if (x < 0 || x >= img.width || y < 0 || y >= img.height) return;
-    let clr = getColorAtindex(img, x, y);
-    let r = red(clr);
-    let g = green(clr);
-    let b = blue(clr);
-    clr.setRed(r + errR * factor);
-    clr.setGreen(g + errG * factor);
-    clr.setBlue(b + errB * factor);
-
-    setColorAtIndex(img, x, y, clr);
+    globalimg.updatePixels();
+    globalimg.resize(canvassizex, 0);
+    image(globalimg, 0, venusOriginal.height);
 }
