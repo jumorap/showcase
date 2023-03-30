@@ -172,6 +172,18 @@ Involves the use of various programming concepts and techniques to create a visu
 
 Involves the use of programming concepts and techniques such as noise functions, color mapping, and event handling to create an interactive 3D terrain using WebGL.
 
+### Previous work
+
+Terrain visualization has been a popular area of research in computer graphics and game development for many years. Perlin noise, which is used in the code provided, was first introduced in 1983 by Ken Perlin and has since become a widely used technique for generating random values in computer graphics.
+
+### Future work
+
+Future work on terrain visualization could involve the development of more advanced techniques for generating 3D terrains. This could include the use of machine learning algorithms to create more realistic and detailed terrain models.
+
+Additionally, the application of terrain visualization could be expanded to fields such as urban planning and environmental science. For example, this code could be used to create 3D models of cities and their surrounding natural environments, which could be used to simulate the effects of urbanization on the environment.
+
+Overall, terrain visualization is an exciting area of research with many potential applications, and there is much room for future development and innovation in this field.
+
 ## Usages
 
 The code provided can be used in various applications, including video games, simulation software, and educational tools. Here are some potential use cases:
