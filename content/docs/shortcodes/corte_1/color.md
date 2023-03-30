@@ -8,6 +8,10 @@
 Implement a color mapping application that helps people who are color blind see the colors around them.
 {{< /hint >}}
 
+## Little Background:
+
+Color blindness, also known as color vision deficiency, is a condition that affects the ability to distinguish colors. It is more common in men than in women and affects approximately 1 in 12 men and 1 in 200 women of Northern European descent. There are different types of color blindness, such as Protanopia, Deuteranopia, and Tritanopia, and they result from the absence or malfunction of certain types of cones in the eye that are responsible for color vision.
+
 ## Solution
 
 Here's an implementation of a color mapping application in P5 that can help people who are color blind see the colors around them:
@@ -327,6 +331,15 @@ The dropdown menu includes the following options for color blindness correction:
 
 The color map can be used to convert color names to RGB values.
 
+## Future work:
+
+There are several directions that future work on color mapping applications could take, such as:
+
+* Improving the accuracy of color correction: While the existing color mapping applications are useful, they are not always accurate in correcting colors for different types of color blindness. Future work could focus on improving the accuracy of color correction algorithms by incorporating more detailed models of color vision and using machine learning techniques to optimize color correction.
+
+* Developing more user-friendly interfaces: The existing color mapping applications can be complex and difficult to use for some users. Future work could focus on developing more user-friendly interfaces that are accessible to a wider range of users, including those with disabilities.
+
+* Expanding the scope of color correction: While the existing color mapping applications focus on correcting colors in images, there are other applications where color correction could be useful, such as in video games, where color-coded information is often used to convey important information to players. Future work could explore the use of color correction in other applications and contexts.
 
 
 {{< hint info >}}
