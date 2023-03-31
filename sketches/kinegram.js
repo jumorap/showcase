@@ -7,6 +7,7 @@ let imagesize = canvassizex / 2;
 let tileCount = 0;
 let mycolor = [0, 0, 0];
 let speed = 1;
+let thickness = 4;
 let input;
 let button;
 
@@ -29,16 +30,22 @@ function setup() {
   typeSelect.changed(program);
   
   // create a slider element and position it on the canvas
-  const slider = createSlider(-300, 300, tileCount);
+  const slider = createSlider(-365, 365, tileCount);
   slider.position(200, 0);
   slider.input(() => {
     tileCount = slider.value();
   });
 
-  const speedslider = createSlider(1, 10, speed);
+  const speedslider = createSlider(0, 10, speed);
   speedslider.position(200, 30);
   speedslider.input(() => {
     speed = speedslider.value();
+  });
+
+  const thickslider = createSlider(4, 10, thickness);
+  thickslider.position(200, 60);
+  thickslider.input(() => {
+    thickness = thickslider.value();
   });
 
   const r = createSlider(0, 255, red);
@@ -94,11 +101,11 @@ function draw() {
   pic.resize(imagesize, 0)
   image(pic, canvassizex / 2, canvassizey / 2);
 
-  for (let j = 0; j < 2000; j += 8) {
+  for (let j = 0; j < 2000; j += thickness) {
     stroke(color(mycolor))
-    strokeWeight(4)
+    strokeWeight(thickness/2)
     line(x + j + tileCount, 30, x + j, height)
-    strokeWeight(4)
+    strokeWeight(thickness/2)
     line(x - j + tileCount, 30, x - j, height)
   }
 
