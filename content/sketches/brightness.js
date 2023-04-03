@@ -95,22 +95,3 @@ function drawupdate() {
   updatePixels();
 }
 
-
-function rotatehueofcolor(c) {
-  c.sort((a, b) => { if (a.nombre < b.nombre) { return -1 } else if (a.nombre > b.nombre) { return 1 } else { return 0 } });
-  let cmax = c[2].value;
-  let cmin = c[0].value;
-  let dif = cmax - cmin;
-  let hue = hueSlider.value();
-  let postomod = (Math.floor((hue + c[1].value - cmin) / dif) + 1) % 3;
-
-  if (dif == 0) {
-    return c;
-  }
-
-  c[Math.abs(postomod)].value = c[Math.abs(postomod)].value + hue;
-
-
-
-  return c;
-}

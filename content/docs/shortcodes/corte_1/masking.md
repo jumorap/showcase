@@ -6,6 +6,19 @@
 Implement a kinegram and some moiré patterns which are close related visual phenomena to masking.
 {{< /hint >}}
 
+
+## Little Background:
+
+Kinegrams are two-dimensional images that appear to move or animate when viewed from different angles or under different lighting conditions. They are typically created by printing or engraving a pattern onto a flat surface and then placing a transparent overlay on top of the pattern that contains a second, complementary pattern. When the two patterns are viewed together, they create the illusion of motion or animation.
+
+Kinegrams were first developed in the early 1970s by Swiss artist and inventor Jean Tinguely, who used them to create kinetic sculptures that appeared to move and change shape when viewed from different angles. Since then, kinegrams have been used for a variety of purposes, including security features on banknotes and passports, as well as for artistic and entertainment purposes.
+
+Moiré patterns, on the other hand, are interference patterns that are created when two similar patterns are overlaid or superimposed on each other. These patterns can be either static or dynamic, and can create a wide range of visual effects, including the illusion of movement, depth, and texture.
+
+Moiré patterns have been studied extensively in the field of computer graphics, where they are used to create a variety of visual effects, such as texture mapping and bump mapping. They are also used in printing and graphic design, where they can create interesting visual effects when printed on different types of paper or other materials.
+
+In the field of visual perception, moiré patterns are often used as a tool for studying how the human brain processes visual information. For example, researchers have used moiré patterns to study how the brain perceives motion and depth, as well as to investigate the neural mechanisms underlying visual illusions and hallucinations.
+
 # Solution:
 
 {{< p5-iframe sketch="/showcase/sketches/kinegram.js" width="700" height="600" >}}
@@ -143,6 +156,16 @@ This program displays a selected image and creates a dynamic pattern of lines ov
 * Adjust the color of the lines using the "R", "G", and "B" sliders.
 * Optionally, input a URL for a different image in the input box at the bottom left corner of the canvas.
 * Click the "Image URL or reset" button to load the selected image or reset the canvas to the default image.
+
+## Posible future work
+
+One possible future work related to this code could be to explore different moiré patterns and their properties.This code already creates a basic moiré pattern by overlaying two sets of diagonal lines at different frequencies, but there are many other types of moiré patterns that could be explored.
+
+Some possible directions for future work could include:
+
+1. Investigating the underlying mathematical principles that govern the creation of moiré patterns and using this knowledge to create more complex and intricate patterns.
+
+2. Applying moiré patterns to other visual media, such as images or video, to explore the potential of these patterns in different contexts.
 
 
 {{< hint info >}}
@@ -423,6 +446,12 @@ The advantage of random dithering is that it is fast and simple to implement. Ho
 
 Overall, random dithering can be a useful technique for reducing the number of colors in an image and generate kind of noise on it, but it may not be the best choice for high-quality or precise color reproduction.
 
+## Possible Future work
+
+One possible work related to this code could be to create a web application that allows users to upload an image and apply the Floyd-Steinberg dithering algorithm to it. The application could provide a slider for users to adjust the number of colors used in the dithering process, similar to the existing code. Additionally, the application could allow users to download the processed image or share it on social media.
+
+To implement this, the code could be adapted to work with user-uploaded images instead of the hardcoded "venus.jpg" file. The "makeDithered" function could be modified to take an image as input, and the "drawImages" function could be updated to load the user-uploaded image and call the "makeDithered" function with it. The application could use a web framework such as Flask or Express to handle the image uploading and serve the processed image back to the user. Additionally, the application could use a front-end framework such as React or Vue.js to create a user-friendly interface for uploading images and adjusting the dithering settings.
+
 
 {{< hint info >}}
 **Exercise**
@@ -673,6 +702,13 @@ The provided code is a basic image processing program that allows you to apply d
 
 6. The program will automatically update the image whenever you change the input image or select a new filter. If you want to reset the image to its original state, you can simply reload the page.
 
+## Possible future work
+
+The current code provides some basic image filters such as identity, edge detection, blur, and sharpen filters. However, there are many other filters and effects that can be implemented such as sepia, grayscale, thresholding, hue/saturation, and many others.
+
+Additionally, the current code only works with RGB images, and a future work could be to add support for other image formats such as grayscale, CMYK, or HSL. This would require modifying the code to handle the different color spaces and implementing the corresponding color conversion algorithms.
+
+Another possible improvement could be to add support for user interaction, allowing users to adjust the parameters of the filters and effects. For example, users could adjust the strength of a filter or the threshold value of a thresholding effect. This would make the code more interactive and user-friendly.
 ## Lightness tools
 
 {{< details title="Code Implementation" open=false >}}
@@ -765,26 +801,6 @@ function drawupdate() {
   }
   updatePixels();
 }
-
-
-function rotatehueofcolor(c) {
-  c.sort((a, b) => { if (a.nombre < b.nombre) { return -1 } else if (a.nombre > b.nombre) { return 1 } else { return 0 } });
-  let cmax = c[2].value;
-  let cmin = c[0].value;
-  let dif = cmax - cmin;
-  let hue = hueSlider.value();
-  let postomod = (Math.floor((hue + c[1].value - cmin) / dif) + 1) % 3;
-
-  if (dif == 0) {
-    return c;
-  }
-
-  c[Math.abs(postomod)].value = c[Math.abs(postomod)].value + hue;
-
-
-
-  return c;
-}
 {{< /highlight >}}
 {{< /details >}}
 
@@ -797,3 +813,13 @@ The color matrix used to rotate the hue is based on the HSL (hue, saturation, li
 The drawupdate() function is called every time the user interacts with any of the three sliders, updating the image with the new settings. The function first clears the canvas with a black background, then loads the original image and applies the color matrix and the saturation and brightness adjustments to each pixel. Finally, the updated pixels are displayed on the canvas using the updatePixels() function.
 
 Overall, the code provides a simple and interactive way to adjust the color and brightness of an image, making it a useful tool for image editing and manipulation.
+
+## Possible future work
+
+One possible future work related to this code could be the development of a photo editing application that allows users to modify the hue, saturation, and brightness of images. The code provided could serve as the basis for the image processing functions of the application.
+
+The application could have a user-friendly interface with sliders similar to those in the code to adjust the hue, saturation, and brightness values. Additionally, the application could allow users to upload their own images or select from a gallery of pre-existing images.
+
+Other potential features that could be added to the application could include image cropping, resizing, and adding text or stickers to the images. The application could also have the ability to save edited images and share them on social media platforms.
+
+The application could be useful for a variety of purposes, including personal use, social media marketing, and graphic design.
