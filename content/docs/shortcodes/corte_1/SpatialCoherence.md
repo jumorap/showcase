@@ -212,6 +212,12 @@ The pixelateByColorAverage() function divides the video into tiles and calculate
 
 Overall, this code allows for easy manipulation and pixelation of uploaded video files, with the user able to choose between different pixelation methods and adjust the tile count to achieve different levels of detail.
 
+### Previuos Work
+In terms of previews work, the use of previews in pixelation and spatial coherence has been largely driven by advances in digital technology. In the past, artists and designers had to rely on their intuition and experience to determine how an image or video would look when pixelated or processed using spatial coherence techniques. However, with the advent of digital tools and software, it has become much easier to create previews of pixelated or spatially coherent images and videos.
+
+### Future Work
+Future work in pixelation and spatial coherence includes improving the quality of pixelated images and videos, enhancing spatial coherence algorithms, exploring new forms of pixel art and digital media, and developing new tools for creating and previewing pixelated and spatially coherent media. Advances in digital technology and the creative vision of artists, designers, and researchers will shape the future of these areas.
+
 ## Benchmarks
 
 Spatial Coherence algorithm is faster than the Color Coherence algorithm. The average time per iteration for the Spatial Coherence algorithm is 4.96ms, while the average time per iteration for the Color Coherence algorithm is 10.85ms. This means that the Spatial Coherence algorithm can pixelate the video more quickly than the Color Coherence algorithm.
