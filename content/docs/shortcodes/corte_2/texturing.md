@@ -182,7 +182,7 @@ vec4 texel = texture2D(texture, texcoords2);
 {{< /details >}}
 
 
-{{< p5-iframe sketch="/showcase/sketches/texturing.js" width="724" height="524" >}}
+{{< p5-iframe sketch="/showcase/sketches/texturing.js" width="724" height="524" marginHeight="0" marginWidth="0" frameBorder="0" scrolling="no" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
 
 ## Description
 The solution implemented in this exercise involves the use of texturing with GLSL shaders to create visual effects in 2D and 3D graphics. Texturing is a technique used to apply a pattern or image onto a surface, creating a realistic or artistic effect.
