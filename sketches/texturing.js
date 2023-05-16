@@ -1,7 +1,7 @@
 let lumaShader, src, img_src, video_src, video_on, lightness, uv, hsv, hsl, cAvrg, textureTintingText, texturingT;
 
 function preload() {
-    lumaShader = readShader('/showcase/sketches/shaders/texturing2.frag',
+    lumaShader = readShader('/showcase/sketches/shaders/texturing.frag',
         { varyings: Tree.texcoords2 });
     // video source: https://t.ly/LWUs2
     video_src = createVideo(['/showcase/sketches/sketches/wagon.webm']);
