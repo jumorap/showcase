@@ -14,7 +14,7 @@ function preload() {
 }
 
 function setup() {
-    createCanvas(600, 428, WEBGL);
+    createCanvas(700, 500, WEBGL);
     noStroke();
     textureMode(NORMAL);
     video_on = createCheckbox('video', false);
