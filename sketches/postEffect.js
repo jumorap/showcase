@@ -10,7 +10,6 @@ let lumaShader, src, img_src,
 function preload() {
     lumaShader = readShader('/showcase/sketches/shaders/postEffect.frag',
         { varyings: Tree.texcoords2 });
-    // image source: https://t.ly/Dz8W
     img_src = loadImage('/showcase/sketches/sketches/cat.png');
     src = img_src;
 }
@@ -30,16 +29,16 @@ function setup() {
     glitchCheck.changed(() => lumaShader.setUniform('glitchEffectBool', glitchCheck.checked()));
 
     glitchSlider = createSlider(0.0, 1.0, 0.5, 0.01);
-    glitchSlider.position(15, 55);
+    glitchSlider.position(15, 50);
     glitchSlider.style('width', '80px');
 
     textureTintingText = createP(`Angle: ${glitchSlider.value() * 360}`);
-    textureTintingText.position(110, 37);
+    textureTintingText.position(110, 32);
     textureTintingText.style('color', 'white');
 
     // ----------------------------------
 
-    lightLeaksCheck = createCheckbox('Light Leaks', false);
+    lightLeaksCheck = createCheckbox('Light Leaks Effect', false);
     lightLeaksCheck.position(10, 70);
     lightLeaksCheck.style('color', 'white');
     lightLeaksCheck.changed(() => lumaShader.setUniform('lightLeaksBool', lightLeaksCheck.checked()));
@@ -168,7 +167,6 @@ function draw() {
     threeDText.html(`Angle: ${threeDSlider.value() * 360}`);
     blurText.html(`Intensity: ${blurSlider.value() * 10}`);
     pixelText.html(`Intensity: ${pixelSlider.value() * 100}`);
-
 
     lumaShader.setUniform("textureSize", [texture.width, texture.height]);
     lumaShader.setUniform('texture', src);
