@@ -11,7 +11,7 @@
 
 The solution implemented various post effects to enhance the visual appearance of the rendered image. These effects were chosen based on personal interest and were designed to add visual flair and improve the overall aesthetic quality of the output.
 
-{{< details title="texturing.js" open=false >}}
+{{< details title="postEffects.js" open=false >}}
 {{< highlight JavaScript >}}
 
 let lumaShader, src, img_src,
@@ -201,7 +201,7 @@ lumaShader.setUniform('glitchSlider', glitchSlider.value());
 
 
 
-{{< details title="texturing.frag" open=false >}}
+{{< details title="postEffects.frag" open=false >}}
 {{< highlight glsl >}}
 precision mediump float;
 
