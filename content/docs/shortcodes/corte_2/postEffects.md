@@ -1,4 +1,4 @@
-# Texturing
+# Mach Bands
 
 {{< hint info >}}
 **Exercises**
@@ -182,27 +182,12 @@ vec4 texel = texture2D(texture, texcoords2);
 {{< /details >}}
 
 
-{{< p5-iframe sketch="/showcase/sketches/texturing.js" width="724" height="524" marginHeight="0" marginWidth="0" frameBorder="0" scrolling="no" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
+{{< p5-iframe sketch="/showcase/sketches/postEffect.js" width="724" height="524" marginHeight="0" marginWidth="0" frameBorder="0" scrolling="no" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
 
 ## Description
-The solution implemented in this exercise involves the use of texturing with GLSL shaders to create visual effects in 2D and 3D graphics. Texturing is a technique used to apply a pattern or image onto a surface, creating a realistic or artistic effect.
-
-The code implements various coloring brightness tools such as HSV value V, HSL lightness L, and Component average to adjust the brightness of textures and create more complex visual effects. The implementation of texture tinting by mixing color and texel interpolated data creates a dynamic and interactive texture mapping.
-
-GLSL shaders are used in this code to manipulate the colors and brightness of the textures, creating a wide range of visual effects. The texturing.js and texturing.frag files provide the necessary functions and code to implement the texturing techniques.
 
 ### Previous work
-Texturing has been a popular technique in computer graphics for many years. It has been used in various fields such as game development, virtual reality, and architectural visualization. GLSL shaders have been used extensively in these fields to create complex visual effects.
 
 ### Future work
-Future work on texturing could involve the development of more advanced techniques for creating and manipulating textures. This could include the use of machine learning algorithms to create more realistic and detailed textures.
-
-Additionally, the application of texturing could be expanded to fields such as medical imaging and scientific visualization. For example, texturing could be used to create 3D models of medical scans, which could be used to simulate the effects of diseases on the body.
 
 ## Usages
-The code provided can be used in various applications, including video games, simulation software, and educational tools. Here are some potential use cases:
-
-- Video games: The texturing techniques implemented in this code could be used as a part of a video game environment. By integrating this code into a game engine, developers can create realistic and immersive environments for their games.
-- Simulation software: Texturing could be used to create realistic simulations of real-world environments, such as landscapes and terrains. For example, this could be used to simulate the effects of weather on a landscape.
-- Educational tools: This code could be used as a tool for learning about texturing, programming concepts, and 3D graphics. It could be integrated into educational software or used as a standalone application to teach students about computer graphics and simulation.
-- Architectural visualization: This code could be used to create 3D models of buildings and environments for architectural visualization. This could be useful for architects and designers to create realistic representations of their designs in a virtual environment.
