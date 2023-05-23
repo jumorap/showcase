@@ -1,0 +1,261 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Image Processing # Exercise Implement an image / video processing app supporting different masks, including other kernel sizes different than 3x3, and:
+A region-of-interest base tool to selectively apply a given mask.Hint: circular regions around the mouse pointer are handy and quite simple to implement by means of glsl distance. A magnifier tool. Requires a bit of research. For instance, look for it in shadertoy. Integrate luma and other coloring brightness tools."><meta name=theme-color content="#FFFFFF"><meta name=color-scheme content="light dark"><meta property="og:title" content><meta property="og:description" content="Image Processing # Exercise Implement an image / video processing app supporting different masks, including other kernel sizes different than 3x3, and:
+A region-of-interest base tool to selectively apply a given mask.Hint: circular regions around the mouse pointer are handy and quite simple to implement by means of glsl distance. A magnifier tool. Requires a bit of research. For instance, look for it in shadertoy. Integrate luma and other coloring brightness tools."><meta property="og:type" content="article"><meta property="og:url" content="https://jumorap.github.io/showcase/docs/shortcodes/corte_2/imageProcessing/"><meta property="article:section" content="docs"><meta property="article:modified_time" content="2023-05-23T03:41:16-05:00"><title>Image Processing | Showcase Template</title><link rel=manifest href=/showcase/manifest.json><link rel=icon href=/showcase/favicon.png type=image/x-icon><link rel=stylesheet href=/showcase/book.min.4b35fed0bea034bbc19c89c71e14b73fb9c68cfcc586b9382adfb9b7b103ba06.css integrity="sha256-SzX+0L6gNLvBnInHHhS3P7nGjPzFhrk4Kt+5t7EDugY=" crossorigin=anonymous><script defer src=/showcase/flexsearch.min.js></script>
+<script defer src=/showcase/en.search.min.3a8d658c77eb93c7f12a2b8af49a700131e474f288eefb605d9fa61576dbe5a7.js integrity="sha256-Oo1ljHfrk8fxKiuK9JpwATHkdPKI7vtgXZ+mFXbb5ac=" crossorigin=anonymous></script></head><body dir=ltr><input type=checkbox class="hidden toggle" id=menu-control>
+<input type=checkbox class="hidden toggle" id=toc-control><main class="container flex"><aside class=book-menu><div class=book-menu-content><nav><h2 class=book-brand><a class="flex align-center" href=/showcase/><span>Showcase Template</span></a></h2><div class=book-search><input type=text id=book-search-input placeholder=Search aria-label=Search maxlength=64 data-hotkeys=s/><div class="book-search-spinner hidden"></div><ul id=book-search-results></ul></div><ul><li class=book-section-flat><span>Shortcodes</span><ul><li><input type=checkbox id=section-98eb846fa59edb294aae7910c3c642ec class=toggle>
+<label for=section-98eb846fa59edb294aae7910c3c642ec class="flex justify-between"><a role=button>Corte 1</a></label><ul><li><a href=/showcase/docs/shortcodes/corte_1/color/>Color</a></li><li><a href=/showcase/docs/shortcodes/corte_1/depthPerception/>Depth Perception</a></li><li><a href=/showcase/docs/shortcodes/corte_1/machBands/>Mach Bands</a></li><li><a href=/showcase/docs/shortcodes/corte_1/masking/>Masking</a></li><li><a href=/showcase/docs/shortcodes/corte_1/SpatialCoherence/>Spatial Coherence</a></li><li><a href=/showcase/docs/shortcodes/corte_1/video/>Video</a></li></ul></li><li><input type=checkbox id=section-b734f2044c27199f5b28b6ff9e224df3 class=toggle checked>
+<label for=section-b734f2044c27199f5b28b6ff9e224df3 class="flex justify-between"><a role=button>Corte 2</a></label><ul><li><a href=/showcase/docs/shortcodes/corte_2/coloring/>Coloring</a></li><li><a href=/showcase/docs/shortcodes/corte_2/imageProcessing/ class=active>Image Processing</a></li><li><a href=/showcase/docs/shortcodes/corte_2/postEffects/>Post Effects</a></li><li><a href=/showcase/docs/shortcodes/corte_2/texturing/>Texturing</a></li></ul></li><li><input type=checkbox id=section-054e72caecd528c85f6d2359bf2d2e8c class=toggle>
+<label for=section-054e72caecd528c85f6d2359bf2d2e8c class="flex justify-between"><a role=button>Introducing Myself</a></label><ul><li><a href=/showcase/docs/shortcodes/introducingMyself/jleonro/>Jleonro</a></li><li><a href=/showcase/docs/shortcodes/introducingMyself/jumorap/>Jumorap</a></li><li><a href=/showcase/docs/shortcodes/introducingMyself/ycuervob/>Ycuervob</a></li></ul></li><li><input type=checkbox id=section-c1868768dbab1c4e29bff25ddfd9a301 class=toggle>
+<label for=section-c1868768dbab1c4e29bff25ddfd9a301 class="flex justify-between"><a role=button>Tutoriales</a></label><ul><li><a href=/showcase/docs/shortcodes/tutoriales/buttons/>Buttons</a></li><li><a href=/showcase/docs/shortcodes/tutoriales/columns/>Columns</a></li><li><a href=/showcase/docs/shortcodes/tutoriales/details/>Details</a></li><li><a href=/showcase/docs/shortcodes/tutoriales/hints/>Hints</a></li><li><a href=/showcase/docs/shortcodes/tutoriales/katex/>Katex</a></li><li><a href=/showcase/docs/shortcodes/tutoriales/mermaid/>Mermaid</a></li><li><input type=checkbox id=section-047615443b93f7846685e44979fc65bd class=toggle>
+<label for=section-047615443b93f7846685e44979fc65bd class="flex justify-between"><a href=/showcase/docs/shortcodes/tutoriales/p5/>P5</a></label><ul><li><a href=/showcase/docs/shortcodes/tutoriales/p5/iframe/>Iframe</a></li><li><a href=/showcase/docs/shortcodes/tutoriales/p5/div/>Div</a></li></ul></li><li><a href=/showcase/docs/shortcodes/tutoriales/tabs/>Tabs</a></li></ul></li></ul></li></ul></nav><script>(function(){var e=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(){localStorage.setItem("menu.scrollTop",e.scrollTop)}),e.scrollTop=localStorage.getItem("menu.scrollTop")})()</script></div></aside><div class=book-page><header class=book-header><div class="flex align-center justify-between"><label for=menu-control><img src=/showcase/svg/menu.svg class=book-icon alt=Menu></label>
+<strong>Image Processing</strong>
+<label for=toc-control><img src=/showcase/svg/toc.svg class=book-icon alt="Table of Contents"></label></div><aside class="hidden clearfix"><nav id=TableOfContents><ul><li><a href=#image-processing>Image Processing</a><ul><li><a href=#little-background>Little background</a></li><li><a href=#how-to-use>How to use</a></li><li><a href=#little-explanation-of-the-code>Little explanation of the code</a></li></ul></li></ul></nav></aside></header><article class=markdown><h1 id=image-processing>Image Processing
+<a class=anchor href=#image-processing>#</a></h1><blockquote class="book-hint info"><p>Exercise
+Implement an image / video processing app supporting different masks, including other kernel sizes different than 3x3, and:</p><ul><li>A region-of-interest base tool to selectively apply a given mask.Hint: circular regions around the mouse pointer are handy and quite simple to implement by means of glsl distance.</li><li>A magnifier tool. Requires a bit of research. For instance, look for it in shadertoy.</li><li>Integrate luma and other coloring brightness tools.
+What other shader tools would you implement?</li></ul></blockquote><h2 id=little-background>Little background
+<a class=anchor href=#little-background>#</a></h2><p>See <a href=/showcase/docs/shortcodes/corte_1/masking/>masking</a> for more info about masking and kernels. The following canvas allows you to apply convolutions to a given image and to images you upload.</p><iframe id=kernelShader style=width:600px;height:600px srcdoc="
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/p5.min.js></script>
+            <script src=https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.5.0/addons/p5.sound.min.js></script>
+             <script src=https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js></script> 
+            
+            
+            
+            
+            <script src=/showcase/sketches/kernelShader.js></script>
+          </head>
+          <body>
+          </body>
+        </html>
+      "></iframe>
+<details><summary>kernelConvolution.frag</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-glsl data-lang=glsl><span style=display:flex><span><span style=color:#66d9ef>precision</span> <span style=color:#66d9ef>mediump</span> <span style=color:#66d9ef>float</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>sampler2D</span> uTexture;  <span style=color:#75715e>// Textura de entrada</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> mat3 uMatrix;        <span style=color:#75715e>// Matriz de convolución</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>vec2</span> uTextureSize;   <span style=color:#75715e>// Tamaño de la textura</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>vec2</span> uCanvasSize;    <span style=color:#75715e>// Tamaño del canvas</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>vec2</span> uMouse;         <span style=color:#75715e>// Posición del ratón</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>uniform</span> <span style=color:#66d9ef>bool</span> uCircle;        <span style=color:#75715e>// Si se usa un círculo o no</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>varying</span> <span style=color:#66d9ef>vec2</span> texcoords2;  <span style=color:#75715e>// Coordenadas de textura interpoladas</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>vec2</span> truncate(<span style=color:#66d9ef>vec2</span> value) {
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> clamp(value, <span style=color:#ae81ff>0.0</span>, <span style=color:#ae81ff>1.0</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>void</span> main() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec2</span> st <span style=color:#f92672>=</span> gl_FragCoord.xy <span style=color:#f92672>/</span> uCanvasSize;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>float</span> pct <span style=color:#f92672>=</span> step(distance(st, uMouse),<span style=color:#ae81ff>0.3</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Realizar la convolución</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec3</span> convolvedColor <span style=color:#f92672>=</span> <span style=color:#66d9ef>vec3</span>(<span style=color:#ae81ff>0.0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>int</span> i <span style=color:#f92672>=</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>; i <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span>; i<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> (<span style=color:#66d9ef>int</span> j <span style=color:#f92672>=</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>; j <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span>; j<span style=color:#f92672>++</span>) {
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>vec2</span> texcoords <span style=color:#f92672>=</span> truncate(texcoords2 <span style=color:#f92672>+</span> <span style=color:#66d9ef>vec2</span>(i, j) <span style=color:#f92672>/</span> uTextureSize);
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>vec3</span> color <span style=color:#f92672>=</span> texture2D(uTexture, texcoords).rgb;
+</span></span><span style=display:flex><span>            convolvedColor <span style=color:#f92672>+=</span> color <span style=color:#f92672>*</span> uMatrix[i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>][j<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>];
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Salida del fragmento</span>
+</span></span><span style=display:flex><span>    pct <span style=color:#f92672>=</span> uCircle <span style=color:#f92672>?</span> pct <span style=color:#f92672>:</span> <span style=color:#ae81ff>1.0</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>vec3</span> originalColor <span style=color:#f92672>=</span> texture2D(uTexture, texcoords2).rgb;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    gl_FragColor <span style=color:#f92672>=</span> <span style=color:#66d9ef>vec4</span>(mix(originalColor, convolvedColor, pct), <span style=color:#ae81ff>1.0</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}</span></span></code></pre></div></div></details><details><summary>kernelShader.frag</summary><div class=markdown-inner><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-JavaScript data-lang=JavaScript><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>dropdown</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>dropdownShader</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>myshader</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>shadercolortool</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>f</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>value</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>0.5</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>img</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>let</span> <span style=color:#a6e22e>checkbox</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>const</span> <span style=color:#a6e22e>kernels</span> <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>identity</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>edge0</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>edge1</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>edge2</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>8</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>sharpen</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>5</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>]
+</span></span><span style=display:flex><span>    ],
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>boxBlur</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    ].<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>row</span> =&gt; <span style=color:#a6e22e>row</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>val</span> =&gt; <span style=color:#a6e22e>val</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.1111</span>)),
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>gaussianBlur</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>2</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>1</span>]
+</span></span><span style=display:flex><span>    ].<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>row</span> =&gt; <span style=color:#a6e22e>row</span>.<span style=color:#a6e22e>map</span>(<span style=color:#a6e22e>val</span> =&gt; <span style=color:#a6e22e>val</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>0.0625</span>)),
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>emboss</span><span style=color:#f92672>:</span> [
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>],
+</span></span><span style=display:flex><span>        [<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>]
+</span></span><span style=display:flex><span>    ]
+</span></span><span style=display:flex><span>};
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>preload</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>img</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadImage</span>(<span style=color:#e6db74>&#34;/showcase/sketches/goodman.jpg&#34;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>readShader</span>(<span style=color:#e6db74>&#39;/showcase/sketches/shaders/texturing.frag&#39;</span>, { <span style=color:#a6e22e>varyings</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>Tree</span>.<span style=color:#a6e22e>texcoords2</span> });
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>readShader</span>(<span style=color:#e6db74>&#39;/showcase/sketches/shaders/kernelConvolution.frag&#39;</span>, { <span style=color:#a6e22e>varyings</span><span style=color:#f92672>:</span> <span style=color:#a6e22e>Tree</span>.<span style=color:#a6e22e>texcoords2</span> });
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>f</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadFont</span>(<span style=color:#e6db74>&#34;https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf&#34;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setup</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>createCanvas</span>(<span style=color:#ae81ff>575</span>, <span style=color:#ae81ff>575</span>, <span style=color:#a6e22e>WEBGL</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>textFont</span>(<span style=color:#a6e22e>f</span>, <span style=color:#ae81ff>20</span>);
+</span></span><span style=display:flex><span> 
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Add option to add a new image
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>fileInput</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createFileInput</span>(<span style=color:#a6e22e>handleFile</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>fileInput</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Crea el dropdown
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>dropdown</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSelect</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createSelect</span>();
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Agrega opciones al dropdown
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;identity&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;edge0&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;edge1&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;edge2&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;sharpen&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;boxBlur&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;gaussianBlur&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;emboss&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Aplica estilos CSS personalizados al dropdown
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;border-radius&#39;</span>, <span style=color:#e6db74>&#39;5px&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;background-color&#39;</span>, <span style=color:#e6db74>&#39;#fff&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;padding&#39;</span>, <span style=color:#e6db74>&#39;5px&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Posiciona el dropdown
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>changed</span>(<span style=color:#a6e22e>setKernel</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Agrega opciones al dropdownShader
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;none&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;lightness&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;hsv&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;hsl&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>option</span>(<span style=color:#e6db74>&#39;cAvrg&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>// Posiciona el dropdownShader
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>380</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>changed</span>(<span style=color:#a6e22e>setColorbridness</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;border-radius&#39;</span>, <span style=color:#e6db74>&#39;5px&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;background-color&#39;</span>, <span style=color:#e6db74>&#39;#fff&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;padding&#39;</span>, <span style=color:#e6db74>&#39;5px&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>checkbox</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>createCheckbox</span>(<span style=color:#e6db74>&#39;Region of interest&#39;</span>, <span style=color:#66d9ef>false</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>checkbox</span>.<span style=color:#a6e22e>position</span>(<span style=color:#ae81ff>220</span>, <span style=color:#ae81ff>10</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>checkbox</span>.<span style=color:#a6e22e>changed</span>(<span style=color:#a6e22e>setCircle</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;background-color&#39;</span>, <span style=color:#e6db74>&#39;#000&#39;</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>checkbox</span>.<span style=color:#a6e22e>style</span>(<span style=color:#e6db74>&#39;color&#39;</span>, <span style=color:#e6db74>&#39;#fff&#39;</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>shadercolortool</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>myshader</span>);
+</span></span><span style=display:flex><span>       
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>imageMode</span>(<span style=color:#a6e22e>CENTER</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>textureMode</span>(<span style=color:#a6e22e>NORMAL</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uTexture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uMatrix&#39;</span>, <span style=color:#a6e22e>kernels</span>[<span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>value</span>()].<span style=color:#a6e22e>flat</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uCanvasSize&#39;</span>, [<span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>height</span>]);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uTextureSize&#39;</span>, [<span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>width</span>, <span style=color:#a6e22e>img</span>.<span style=color:#a6e22e>height</span>]);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uCircle&#39;</span>, <span style=color:#a6e22e>checkbox</span>.<span style=color:#a6e22e>value</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texture&#39;</span>, <span style=color:#a6e22e>get</span>());
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>draw</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>background</span>(<span style=color:#ae81ff>255</span>);
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mouseXAdjusted</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>mouseX</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>width</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>mouseYAdjusted</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1.0</span> <span style=color:#f92672>-</span> <span style=color:#a6e22e>mouseY</span> <span style=color:#f92672>/</span> <span style=color:#a6e22e>height</span>;
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uMouse&#39;</span>, [<span style=color:#a6e22e>mouseXAdjusted</span>, <span style=color:#a6e22e>mouseYAdjusted</span>]);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>beginShape</span>();
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vertex</span>(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vertex</span>(<span style=color:#ae81ff>1</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vertex</span>(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>vertex</span>(<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>0</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>endShape</span>();
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>handleFile</span>(<span style=color:#a6e22e>file</span>) {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> (<span style=color:#a6e22e>file</span>.<span style=color:#a6e22e>type</span> <span style=color:#f92672>===</span> <span style=color:#e6db74>&#39;image&#39;</span>) {
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>img</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>loadImage</span>(<span style=color:#a6e22e>file</span>.<span style=color:#a6e22e>data</span>, () =&gt; {
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uTexture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>            <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>        });
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setKernel</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>myshader</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uMatrix&#39;</span>, <span style=color:#a6e22e>kernels</span>[<span style=color:#a6e22e>dropdown</span>.<span style=color:#a6e22e>value</span>()].<span style=color:#a6e22e>flat</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uTexture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>selected</span>(<span style=color:#e6db74>&#39;none&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setCircle</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>myshader</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uCircle&#39;</span>, <span style=color:#a6e22e>checkbox</span>.<span style=color:#a6e22e>checked</span>());
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>myshader</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uTexture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>selected</span>(<span style=color:#e6db74>&#39;none&#39;</span>);
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>setColorbridness</span>() {
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>uv</span> <span style=color:#f92672>=</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>hsv</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;hsv&#39;</span> <span style=color:#f92672>?</span> <span style=color:#66d9ef>true</span> <span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>hsl</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;hsl&#39;</span> <span style=color:#f92672>?</span> <span style=color:#66d9ef>true</span> <span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>cAvrg</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;cAvrg&#39;</span> <span style=color:#f92672>?</span> <span style=color:#66d9ef>true</span> <span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>let</span> <span style=color:#a6e22e>lightness</span> <span style=color:#f92672>=</span> <span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;lightness&#39;</span> <span style=color:#f92672>?</span> <span style=color:#66d9ef>true</span> <span style=color:#f92672>:</span> <span style=color:#66d9ef>false</span>;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;hsv&#39;</span>, <span style=color:#a6e22e>hsv</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;hsl&#39;</span>, <span style=color:#a6e22e>hsl</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;cAvrg&#39;</span>, <span style=color:#a6e22e>cAvrg</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;lightness&#39;</span>, <span style=color:#a6e22e>lightness</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;uv&#39;</span>, <span style=color:#a6e22e>uv</span>);
+</span></span><span style=display:flex><span>    <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;textureTinting&#39;</span>, <span style=color:#a6e22e>value</span>);
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span>(<span style=color:#a6e22e>dropdownShader</span>.<span style=color:#a6e22e>value</span>() <span style=color:#f92672>==</span> <span style=color:#e6db74>&#39;none&#39;</span>){
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>shadercolortool</span>);
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>setKernel</span>();
+</span></span><span style=display:flex><span>    }<span style=color:#66d9ef>else</span>{
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>myshader</span>);
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>shader</span>(<span style=color:#a6e22e>shadercolortool</span>);
+</span></span><span style=display:flex><span>        <span style=color:#a6e22e>shadercolortool</span>.<span style=color:#a6e22e>setUniform</span>(<span style=color:#e6db74>&#39;texture&#39;</span>, <span style=color:#a6e22e>img</span>);
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}</span></span></code></pre></div></div></details><h2 id=how-to-use>How to use
+<a class=anchor href=#how-to-use>#</a></h2><p>You can use the selector to choose the type of kernel convolution. Similarly, if you click on the checkbox, you can have the convolution centered around the area near the mouse cursor. Additionally, you can apply various brightness filters to the image. Likewise, you can load many other images of your own and test different results with them.</p><h2 id=little-explanation-of-the-code>Little explanation of the code
+<a class=anchor href=#little-explanation-of-the-code>#</a></h2><p>Let&rsquo;s go through the code <strong>kernelConvolution.frag</strong> step by step:</p><ol><li><p>The line precision mediump float; specifies the precision for floating-point calculations in the shader. In this case, it uses medium precision.</p></li><li><p>The uniform keyword is used to declare variables that are constant across all invocations of the shader. In this code, the following uniforms are declared:</p></li></ol><ul><li>uTexture is a 2D texture sampler representing the input texture.</li><li>uMatrix is a 3x3 matrix used for convolution.</li><li>uTextureSize is a 2D vector representing the size of the input texture.</li><li>uCanvasSize is a 2D vector representing the size of the canvas.</li><li>uMouse is a 2D vector representing the position of the mouse.</li><li>uCircle is a boolean indicating whether a circle is used or not.</li></ul><ol start=3><li><p>The varying keyword is used to declare variables that are interpolated across the primitive being rendered. In this code, texcoords2 is a 2D vector representing the interpolated texture coordinates.</p></li><li><p>The truncate function clamps a vector&rsquo;s components between 0.0 and 1.0. It is used to ensure that texture coordinates stay within the valid range.</p></li><li><p>The main function is the entry point of the fragment shader. It is executed for each fragment (pixel) of the rendered primitive.</p></li><li><p>The first two lines inside the main function calculate the normalized texture coordinates (st) of the current fragment by dividing the fragment coordinates (gl_FragCoord.xy) by the canvas size (uCanvasSize).</p></li><li><p>The step function is used to create a step function (pct) based on the distance between the current texture coordinate and the mouse position (uMouse). It sets pct to 1.0 if the distance is less than 0.3, and 0.0 otherwise.</p></li><li><p>The nested for loops iterate over a 3x3 neighborhood centered around the current fragment. It calculates the texture coordinates (texcoords) for each neighbor and retrieves the color value from the input texture using texture2D. The color is multiplied by the corresponding value in the convolution matrix (uMatrix) and accumulated in the convolvedColor variable.</p></li><li><p>The pct value is updated based on the uCircle flag. If uCircle is true, pct remains unchanged; otherwise, it is set to 1.0.</p></li><li><p>The original color of the current fragment is retrieved from the input texture using the original texture coordinates (texcoords2).</p></li><li><p>The final color of the fragment is calculated by linearly interpolating between the original color and the convolved color based on the pct value. The resulting color is assigned to gl_FragColor, which represents the output color of the fragment. The alpha value is set to 1.0 (fully opaque).</p></li></ol></article><footer class=book-footer><div class="flex flex-wrap justify-between"><div><a class="flex align-center" href=https://github.com/jumorap/showcase/commit/c1055607c910ed12ccd2c23730836b0cfab141bd title='Last modified by yeison | May 23, 2023' target=_blank rel=noopener><img src=/showcase/svg/calendar.svg class=book-icon alt=Calendar>
+<span>May 23, 2023</span></a></div></div><script>(function(){function e(e){const t=window.getSelection(),n=document.createRange();n.selectNodeContents(e),t.removeAllRanges(),t.addRange(n)}document.querySelectorAll("pre code").forEach(t=>{t.addEventListener("click",function(){if(window.getSelection().toString())return;e(t.parentElement),navigator.clipboard&&navigator.clipboard.writeText(t.parentElement.textContent)})})})()</script></footer><div class=book-comments></div><label for=menu-control class="hidden book-menu-overlay"></label></div><aside class=book-toc><div class=book-toc-content><nav id=TableOfContents><ul><li><a href=#image-processing>Image Processing</a><ul><li><a href=#little-background>Little background</a></li><li><a href=#how-to-use>How to use</a></li><li><a href=#little-explanation-of-the-code>Little explanation of the code</a></li></ul></li></ul></nav></div></aside></main></body></html>
