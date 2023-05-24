@@ -2,10 +2,12 @@ let dropdown;
 let dropdownShader;
 let myshader;
 let shadercolortool;
+let magnifiershader;
 let f;
 let value = 0.5;
 let img;
 let checkbox;
+let checkbox2;
 let screeShader;
 
 const kernels = {
@@ -63,6 +65,7 @@ function preload() {
     img = loadImage("/showcase/sketches/goodman.jpg");
     shadercolortool = readShader('/showcase/sketches/shaders/texturing.frag', { varyings: Tree.texcoords2 });
     myshader = readShader('/showcase/sketches/shaders/kernelConvolution.frag', { varyings: Tree.texcoords2 });
+    magnifiershader = readShader('/showcase/sketches/shaders/magnifier.frag', { varyings: Tree.texcoords2 });
     f = loadFont("https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf");
 }
 
@@ -115,10 +118,17 @@ function setup() {
     checkbox.position(220, 10);
     checkbox.changed(setCircle);
     checkbox.style('background-color', '#000');
-    checkbox.style('color', '#fff');    
+    checkbox.style('color', '#fff');
 
-    shader(myshader);
+    checkbox2 = createCheckbox('Magnifier', false);
+    checkbox2.position(220, 40);
+    checkbox2.changed(setMagnifier);
+    checkbox2.style('background-color', '#000');
+    checkbox2.style('color', '#fff');
+
+    
     shadercolortool.setUniform('texture', img);
+    magnifiershader.setUniform('uTexture', img);
 
     imageMode(CENTER);
     textureMode(NORMAL);
@@ -128,6 +138,7 @@ function setup() {
     screeShader.imageMode(CENTER);
     screeShader.textureMode(NORMAL);
 
+    shader(myshader);
     myshader.setUniform('uTexture', screeShader);
     myshader.setUniform('uMatrix', kernels[dropdown.value()].flat());
     myshader.setUniform('uCanvasSize', [width, height]);
@@ -142,6 +153,8 @@ function draw() {
     let mouseXAdjusted = mouseX / width;
     let mouseYAdjusted = 1.0 - mouseY / height;
     myshader.setUniform('uMouse', [mouseXAdjusted, mouseYAdjusted]);
+    magnifiershader.setUniform('uMouse', [mouseXAdjusted, mouseY / height]);
+    magnifiershader.setUniform('umagnifierPos', [mouseXAdjusted, mouseY / height]);
 
     screeShader.beginShape();
     screeShader.vertex(-1, -1, 0, 0, 1);
@@ -191,3 +204,13 @@ function setColorbridness() {
     shadercolortool.setUniform('texture', img);
 }
 
+function setMagnifier(){
+    if(checkbox2.checked()){
+        screeShader.shader(magnifiershader);
+    }else{
+        screeShader.shader(shadercolortool);
+    }
+    magnifiershader.setUniform('umagnifierSize', 0.3);
+    magnifiershader.setUniform('uTexture', img);
+    
+}
