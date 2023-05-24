@@ -60,7 +60,6 @@ void main() {
 
 {{< details title="kernelShader.frag" open=false >}}
 {{< highlight JavaScript >}}
-
 let dropdown;
 let dropdownShader;
 let myshader;
@@ -69,6 +68,8 @@ let f;
 let value = 0.5;
 let img;
 let checkbox;
+let checkbox2;
+let screeShader;
 
 const kernels = {
     identity: [
@@ -131,7 +132,7 @@ function preload() {
 function setup() {
     createCanvas(575, 575, WEBGL);
     textFont(f, 20);
- 
+
     // Add option to add a new image
     let fileInput = createFileInput(handleFile);
     fileInput.position(10, 10);
@@ -179,18 +180,30 @@ function setup() {
     checkbox.style('background-color', '#000');
     checkbox.style('color', '#fff');
 
-    shader(shadercolortool);
+    checkbox2 = createCheckbox('keep changes', false);
+    checkbox2.position(220, 40);
+    checkbox2.style('background-color', '#000');
+    checkbox2.style('color', '#fff');
+
+
     shader(myshader);
-       
+    shadercolortool.setUniform('texture', img);
+
     imageMode(CENTER);
     textureMode(NORMAL);
 
-    myshader.setUniform('uTexture', img);
+    screeShader = createGraphics(575, 575, WEBGL);
+    screeShader.shader(shadercolortool);
+    screeShader.imageMode(CENTER);
+    screeShader.textureMode(NORMAL);
+
+    myshader.setUniform('uTexture', screeShader);
     myshader.setUniform('uMatrix', kernels[dropdown.value()].flat());
     myshader.setUniform('uCanvasSize', [width, height]);
     myshader.setUniform('uTextureSize', [img.width, img.height]);
     myshader.setUniform('uCircle', checkbox.value());
-    shadercolortool.setUniform('texture', get());
+
+    setColorbridness();
 }
 
 function draw() {
@@ -198,6 +211,14 @@ function draw() {
     let mouseXAdjusted = mouseX / width;
     let mouseYAdjusted = 1.0 - mouseY / height;
     myshader.setUniform('uMouse', [mouseXAdjusted, mouseYAdjusted]);
+
+    screeShader.beginShape();
+    screeShader.vertex(-1, -1, 0, 0, 1);
+    screeShader.vertex(1, -1, 0, 1, 1);
+    screeShader.vertex(1, 1, 0, 1, 0);
+    screeShader.vertex(-1, 1, 0, 0, 0);
+    screeShader.endShape();
+
     beginShape();
     vertex(-1, -1, 0, 0, 1);
     vertex(1, -1, 0, 1, 1);
@@ -209,24 +230,18 @@ function draw() {
 function handleFile(file) {
     if (file.type === 'image') {
         img = loadImage(file.data, () => {
-            myshader.setUniform('uTexture', img);
             shadercolortool.setUniform('texture', img);
+            myshader.setUniform('uTexture', screeShader);
         });
     }
 }
 
 function setKernel() {
-    shader(myshader);
     myshader.setUniform('uMatrix', kernels[dropdown.value()].flat());
-    myshader.setUniform('uTexture', img);
-    dropdownShader.selected('none');
 }
 
 function setCircle() {
-    shader(myshader);
     myshader.setUniform('uCircle', checkbox.checked());
-    myshader.setUniform('uTexture', img);
-    dropdownShader.selected('none');
 }
 
 function setColorbridness() {
@@ -242,18 +257,8 @@ function setColorbridness() {
     shadercolortool.setUniform('lightness', lightness);
     shadercolortool.setUniform('uv', uv);
     shadercolortool.setUniform('textureTinting', value);
-
-    if(dropdownShader.value() == 'none'){
-        shader(shadercolortool);
-        shadercolortool.setUniform('texture', img);
-        setKernel();
-    }else{
-        shader(myshader);
-        shader(shadercolortool);
-        shadercolortool.setUniform('texture', img);
-    }
+    shadercolortool.setUniform('texture', img);
 }
-
 
 
 {{< /highlight >}}
