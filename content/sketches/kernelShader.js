@@ -6,7 +6,6 @@ let f;
 let value = 0.5;
 let img;
 let checkbox;
-let checkbox2;
 let screeShader;
 
 const kernels = {
@@ -116,14 +115,7 @@ function setup() {
     checkbox.position(220, 10);
     checkbox.changed(setCircle);
     checkbox.style('background-color', '#000');
-    checkbox.style('color', '#fff');
-
-    checkbox2 = createCheckbox('keep changes', false);
-    checkbox2.position(220, 40);
-    checkbox2.style('background-color', '#000');
-    checkbox2.style('color', '#fff');
-
-    
+    checkbox.style('color', '#fff');    
 
     shader(myshader);
     shadercolortool.setUniform('texture', img);
