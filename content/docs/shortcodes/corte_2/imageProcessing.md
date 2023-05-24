@@ -16,6 +16,42 @@ See [masking](/showcase/docs/shortcodes/corte_1/masking/) for more info about ma
 
 {{< p5-iframe sketch="/showcase/sketches/kernelShader.js" width="600" height="600" marginHeight="0" marginWidth="0" frameBorder="0" scrolling="no" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
 
+
+{{< details title="magnifier.frag" open=false >}}
+{{< highlight glsl >}}
+precision mediump float;
+
+uniform sampler2D uTexture;
+uniform vec2 uMouse;
+uniform vec2 umagnifierPos;
+uniform float umagnifierSize;
+
+varying vec2 texcoords2;
+
+void main() {
+  vec2 texCoord = texcoords2;
+
+  // Calculate the distance from the mouse position
+  float distance = length(uMouse - texCoord);
+
+  // If the pixel is within the magnifier area, apply zoom
+  if (distance < umagnifierSize) {
+    // Calculate the offset from the magnifier position
+    vec2 offset = (umagnifierPos- texCoord) * umagnifierSize;
+
+    // Apply the offset to the texture coordinates
+    texCoord += offset;
+  }
+
+  // Get the color from the original texture
+  vec4 color = texture2D(uTexture, texCoord);
+
+  gl_FragColor = color;
+}
+
+{{< /highlight >}}
+{{< /details >}}
+
 {{< details title="kernelConvolution.frag" open=false >}}
 {{< highlight glsl >}}
 
@@ -58,12 +94,13 @@ void main() {
 {{< /highlight >}}
 {{< /details >}}
 
-{{< details title="kernelShader.frag" open=false >}}
+{{< details title="kernelShader.js" open=false >}}
 {{< highlight JavaScript >}}
 let dropdown;
 let dropdownShader;
 let myshader;
 let shadercolortool;
+let magnifiershader;
 let f;
 let value = 0.5;
 let img;
@@ -126,6 +163,7 @@ function preload() {
     img = loadImage("/showcase/sketches/goodman.jpg");
     shadercolortool = readShader('/showcase/sketches/shaders/texturing.frag', { varyings: Tree.texcoords2 });
     myshader = readShader('/showcase/sketches/shaders/kernelConvolution.frag', { varyings: Tree.texcoords2 });
+    magnifiershader = readShader('/showcase/sketches/shaders/magnifier.frag', { varyings: Tree.texcoords2 });
     f = loadFont("https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf");
 }
 
@@ -180,14 +218,15 @@ function setup() {
     checkbox.style('background-color', '#000');
     checkbox.style('color', '#fff');
 
-    checkbox2 = createCheckbox('keep changes', false);
+    checkbox2 = createCheckbox('Magnifier', false);
     checkbox2.position(220, 40);
+    checkbox2.changed(setMagnifier);
     checkbox2.style('background-color', '#000');
     checkbox2.style('color', '#fff');
 
-
-    shader(myshader);
+    
     shadercolortool.setUniform('texture', img);
+    magnifiershader.setUniform('uTexture', img);
 
     imageMode(CENTER);
     textureMode(NORMAL);
@@ -197,6 +236,7 @@ function setup() {
     screeShader.imageMode(CENTER);
     screeShader.textureMode(NORMAL);
 
+    shader(myshader);
     myshader.setUniform('uTexture', screeShader);
     myshader.setUniform('uMatrix', kernels[dropdown.value()].flat());
     myshader.setUniform('uCanvasSize', [width, height]);
@@ -211,6 +251,8 @@ function draw() {
     let mouseXAdjusted = mouseX / width;
     let mouseYAdjusted = 1.0 - mouseY / height;
     myshader.setUniform('uMouse', [mouseXAdjusted, mouseYAdjusted]);
+    magnifiershader.setUniform('uMouse', [mouseXAdjusted, mouseY / height]);
+    magnifiershader.setUniform('umagnifierPos', [mouseXAdjusted, mouseY / height]);
 
     screeShader.beginShape();
     screeShader.vertex(-1, -1, 0, 0, 1);
@@ -259,6 +301,18 @@ function setColorbridness() {
     shadercolortool.setUniform('textureTinting', value);
     shadercolortool.setUniform('texture', img);
 }
+
+function setMagnifier(){
+    if(checkbox2.checked()){
+        screeShader.shader(magnifiershader);
+    }else{
+        screeShader.shader(shadercolortool);
+    }
+    magnifiershader.setUniform('umagnifierSize', 0.3);
+    magnifiershader.setUniform('uTexture', img);
+    
+}
+
 
 
 {{< /highlight >}}
