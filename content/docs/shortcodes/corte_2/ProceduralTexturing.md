@@ -234,7 +234,7 @@ function mouseMoved() {
 {{< /highlight >}}
 {{< /details >}}
 
-{{< p5-iframe sketch="/showcase/sketches/texturePatter.js" width="800" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
+{{< p5-iframe sketch="/showcase/sketches/texturePatter.js" width="500" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
 
 
 ## How to use
