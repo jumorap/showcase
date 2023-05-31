@@ -1,4 +1,5 @@
-let lumaShader, src, img_src, video_src, video_on, lightness, uv, hsv, hsl, cAvrg, textureTintingText, texturingT;
+let lumaShader, src, img_src, video_src, video_on, lightness, uv, hsv, hsl, cAvrg,
+    textureTintingCheckbox, textureTintingText, texturingT, textureTintingPicker;
 
 function preload() {
     lumaShader = readShader('/showcase/sketches/shaders/texturing.frag',
@@ -47,20 +48,32 @@ function setup() {
     cAvrg.style('color', 'white');
     cAvrg.changed(() => lumaShader.setUniform('cAvrg', cAvrg.checked()));
 
-    texturingT = createSlider(0.0, 1.0, 0.5, 0.05);
-    texturingT.position(20, 160);
+    textureTintingCheckbox = createCheckbox('texture tinting', false);
+    textureTintingCheckbox.position(10, 130);
+    textureTintingCheckbox.style('color', 'white');
+    textureTintingCheckbox.changed(() => lumaShader.setUniform('textureTintingCheckbox', textureTintingCheckbox.checked()));
+
+    textureTintingPicker = createColorPicker('#670177');
+    textureTintingPicker.position(20, 155);
+    textureTintingPicker.style('width', '150px');
+
+    texturingT = createSlider(0.0, 0.025, 0.0125, 0.000001);
+    texturingT.position(20, 185);
     texturingT.style('width', '80px');
 
-    textureTintingText = createP(`texture tinting value: ${texturingT.value()}`);
-    textureTintingText.position(20, 125);
+    textureTintingText = createP(`Intensity: ${texturingT.value() * 4000}`);
+    textureTintingText.position(20, 185);
     textureTintingText.style('color', 'white');
 
     shader(lumaShader);
 }
 
 function draw() {
+    let color1Color = textureTintingPicker.color();
+
     lumaShader.setUniform('texturingT', texturingT.value());
-    textureTintingText.html(`texture tinting value: ${texturingT.value()}`);
+    textureTintingText.html(`Intensity: ${texturingT.value() * 4000}`);
+    lumaShader.setUniform('tintColorPicker', [red(color1Color), green(color1Color), blue(color1Color), 1.0]);
     lumaShader.setUniform('texture', src);
     beginShape();
     // format is: vertex(x, y, z, u, v)
