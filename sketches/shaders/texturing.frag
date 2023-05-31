@@ -3,6 +3,7 @@ precision mediump float;
 // uniforms are defined and sent by the sketch
 uniform sampler2D texture;
 uniform vec3 tintColor; // new uniform for tint color
+uniform vec3 tintColorPicker;
 uniform float texturingT;
 uniform bool lightness; // lightness visualization
 uniform bool uv; // uv visualization
@@ -10,6 +11,7 @@ uniform bool hsv; // hsv visualization
 uniform bool hsl; // hsl visualization
 uniform bool cAvrg; // component average visualization
 uniform bool textureTinting; // texture tinting visualization
+uniform bool textureTintingCheckbox;
 
 // interpolated texcoord (same name and type as in vertex shader)
 varying vec2 texcoords2;
@@ -64,16 +66,17 @@ void main() {
     vec4 texel = texture2D(texture, texcoords2);
 
     // tint the texel color with the tint color
-    vec3 tintedColor = texel.rgb * tintColor;
+    vec3 tintedColor = texel.rgb * tintColorPicker;
 
     // mix the tinted color and the original texel color
     vec3 mixedColor = mix(texel.rgb, tintedColor, texturingT);
 
     gl_FragColor =
-    uv ? vec4(texcoords2.xy, 0.0, 1.0) :
-    lightness ? vec4(vec3(luma(texel)), 1.0) :
-    hsv ? vec4(vec3(RGB2HSV(texel)), 1.0) :
-    hsl ? vec4(vec3(RGB2HSL(texel)), 1.0) :
-    cAvrg ? vec4(vec3(componentAverage(texel)), 1.0) :
-    vec4(mixedColor, texel.a); // set output color to mixed color
+        uv ? vec4(texcoords2.xy, 0.0, 1.0) :
+        lightness ? vec4(vec3(luma(texel)), 1.0) :
+        hsv ? vec4(vec3(RGB2HSV(texel)), 1.0) :
+        hsl ? vec4(vec3(RGB2HSL(texel)), 1.0) :
+        cAvrg ? vec4(vec3(componentAverage(texel)), 1.0) :
+        textureTintingCheckbox ? vec4(mixedColor, texel.a) :
+        texel; // set output color to mixed color
 }
