@@ -63,11 +63,11 @@ function setup() {
     textureTintingPicker.style('width', '80px');
 
     texturingT = createSlider(0.0, 0.025, 0.0125, 0.000001);
-    texturingT.position(30, 185);
+    texturingT.position(120, 155);
     texturingT.style('width', '80px');
 
     textureTintingText = createP(`Intensity: ${texturingT.value() * 4000}`);
-    textureTintingText.position(30, 185);
+    textureTintingText.position(120, 155);
     textureTintingText.style('color', 'white');
 
     shader(lumaShader);
