@@ -16,6 +16,11 @@ function setup() {
     createCanvas(700, 500, WEBGL);
     noStroke();
     textureMode(NORMAL);
+
+    // Add option to add a new image
+    let fileInput = createFileInput(handleFile);
+    fileInput.position(width - 100, 10);
+
     video_on = createCheckbox('video', false);
     video_on.style('color', 'white');
     video_on.changed(() => {
@@ -54,18 +59,28 @@ function setup() {
     textureTintingCheckbox.changed(() => lumaShader.setUniform('textureTintingCheckbox', textureTintingCheckbox.checked()));
 
     textureTintingPicker = createColorPicker('#670177');
-    textureTintingPicker.position(20, 155);
-    textureTintingPicker.style('width', '150px');
+    textureTintingPicker.position(30, 155);
+    textureTintingPicker.style('width', '80px');
 
     texturingT = createSlider(0.0, 0.025, 0.0125, 0.000001);
-    texturingT.position(20, 185);
+    texturingT.position(30, 185);
     texturingT.style('width', '80px');
 
     textureTintingText = createP(`Intensity: ${texturingT.value() * 4000}`);
-    textureTintingText.position(20, 185);
+    textureTintingText.position(30, 185);
     textureTintingText.style('color', 'white');
 
     shader(lumaShader);
+}
+
+function handleFile(file) {
+    if (file.type === 'image') {
+        src = loadImage(file.data, () => {
+            lumaShader.setUniform('texture', src);
+        });
+    } else {
+        src = img_src;
+    }
 }
 
 function draw() {
