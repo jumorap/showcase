@@ -13,7 +13,6 @@ The solution implemented various post effects to enhance the visual appearance o
 
 {{< details title="postEffects.js" open=false >}}
 {{< highlight JavaScript >}}
-
 let lumaShader, src, img_src,
 glitchCheck, textureTintingText, glitchSlider, glitchEffectBool,
 lightLeaksCheck, lightLeaksSlider, lightLeaksText, lightLeaksBool,
@@ -376,15 +375,17 @@ vec2 texelOffset9 = vec2(multiplySlider, multiplySlider);
 
     // Sample the surrounding texels and accumulate the color
     vec4 blurredTexel =
-    (texture2D(texture, texcoords2 + texelOffset1) +
-    texture2D(texture, texcoords2 + texelOffset2) +
-    texture2D(texture, texcoords2 + texelOffset3) +
-    texture2D(texture, texcoords2 + texelOffset4) +
-    texture2D(texture, texcoords2 + texelOffset5) +
-    texture2D(texture, texcoords2 + texelOffset6) +
-    texture2D(texture, texcoords2 + texelOffset7) +
-    texture2D(texture, texcoords2 + texelOffset8) +
-    texture2D(texture, texcoords2 + texelOffset9)) / 9.0;
+        (
+            texture2D(texture, texcoords2 + texelOffset1) +
+            texture2D(texture, texcoords2 + texelOffset2) +
+            texture2D(texture, texcoords2 + texelOffset3) +
+            texture2D(texture, texcoords2 + texelOffset4) +
+            texture2D(texture, texcoords2 + texelOffset5) +
+            texture2D(texture, texcoords2 + texelOffset6) +
+            texture2D(texture, texcoords2 + texelOffset7) +
+            texture2D(texture, texcoords2 + texelOffset8) +
+            texture2D(texture, texcoords2 + texelOffset9)
+        ) / 9.0;
 
     // Mix the original texel color with the blurred color
     vec4 finalColor = mix(texel, blurredTexel, 0.5); // Adjust the mix value for desired blur intensity
@@ -408,15 +409,17 @@ float blurSlider0 = blurSlider * 0.01;
 
     // Sample the surrounding texels and accumulate the color
     vec4 blurredTexel =
-    (texture2D(texture, texcoords2 + texelOffset1) +
-    texture2D(texture, texcoords2 + texelOffset2) +
-    texture2D(texture, texcoords2 + texelOffset3) +
-    texture2D(texture, texcoords2 + texelOffset4) +
-    texture2D(texture, texcoords2 + texelOffset5) +
-    texture2D(texture, texcoords2 + texelOffset6) +
-    texture2D(texture, texcoords2 + texelOffset7) +
-    texture2D(texture, texcoords2 + texelOffset8) +
-    texture2D(texture, texcoords2 + texelOffset9)) / 9.0;
+        (
+            texture2D(texture, texcoords2 + texelOffset1) +
+            texture2D(texture, texcoords2 + texelOffset2) +
+            texture2D(texture, texcoords2 + texelOffset3) +
+            texture2D(texture, texcoords2 + texelOffset4) +
+            texture2D(texture, texcoords2 + texelOffset5) +
+            texture2D(texture, texcoords2 + texelOffset6) +
+            texture2D(texture, texcoords2 + texelOffset7) +
+            texture2D(texture, texcoords2 + texelOffset8) +
+            texture2D(texture, texcoords2 + texelOffset9)
+        ) / 9.0;
 
     // Mix the original texel color with the blurred color
     vec4 finalColor = mix(texel, blurredTexel, 0.5); // Adjust the mix value for desired blur intensity
@@ -426,7 +429,7 @@ float blurSlider0 = blurSlider * 0.01;
 
 vec4 pixelEffect(vec4 texel) {
 // Define the pixel size
-float pixelSize = pixelSlider * 0.01 + 0.001;
+float pixelSize = pixelSlider * 0.02 + 0.001;
 
     // Calculate the pixelated texel coordinates
     vec2 pixelatedUV = floor(texcoords2 / pixelSize) * pixelSize;
@@ -438,21 +441,17 @@ float pixelSize = pixelSlider * 0.01 + 0.001;
 }
 
 void main() {
-// texture2D(texture, texcoords2) samples texture at texcoords2
-// and returns the normalized texel color
 vec4 texel = texture2D(texture, texcoords2);
+float effectIntensity = 1.0;
 
-    // Apply glitch effect
-    vec4 finalColor =
-        glitchEffectBool ? glitchEffect(texel) :
-        lightLeaksBool ? lensFlare(texel) :
-        multiplyEffectBool ? multiplyEffect(texel) :
-        threeDEffectBool ? glitchEffect3DBlueRed(texel) :
-        blurEffectBool ? blurEffect(texel) :
-        pixelEffectBool ? pixelEffect(texel) :
-        texel;
+    if (glitchEffectBool) texel = mix(texel, glitchEffect(texel), effectIntensity);
+    if (lightLeaksBool) texel = mix(texel, lensFlare(texel), effectIntensity);
+    if (multiplyEffectBool) texel = mix(texel, multiplyEffect(texel), multiplySlider + 0.3);
+    if (threeDEffectBool) texel = mix(texel, glitchEffect3DBlueRed(texel), effectIntensity);
+    if (blurEffectBool) texel = mix(texel, blurEffect(texel), blurSlider);
+    if (pixelEffectBool) texel = mix(texel, pixelEffect(texel), pixelSlider - 0.3);
 
-    gl_FragColor = finalColor;
+    gl_FragColor = texel;
 }
 
 {{< /highlight >}}
@@ -464,6 +463,8 @@ vec4 texel = texture2D(texture, texcoords2);
 ## Description
 
 The code implementation includes several post effects to enhance the visual appearance of the rendered image. The Glitch Effect introduces visual distortions and artifacts to create a glitchy, digital aesthetic. The Light Leaks Effect simulates the appearance of light leaking into the camera lens, adding a dreamy and vintage vibe. The Multiply Effect overlays multiple copies of the original image at the same distance, resulting in a multiplied and intensified visual effect. The 3D Effect utilizes the red and blue channels and the distance from the original image to create a stereoscopic 3D effect. The Blur Effect applies a blurring filter to the image, creating a softer and smoother appearance. Lastly, the Pixel Effect transforms the image into a pixelated version, giving it a retro or low-resolution look.
+
+You can combine multiple effects using the checkboxes in each effect, using the sliders to change the angles and intensity for each one
 
 ### Previous work
 
