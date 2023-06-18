@@ -1,0 +1,8 @@
+{{ $site := .Get `site` }}
+
+<iframe
+  id="gameoflife"
+  allowfullscreen
+  style="width:{{ default "800" (.Get `width`) }}px; height:{{ default "600" (.Get `height`) }}px"
+  src="{{ $site }}"
+></iframe>
