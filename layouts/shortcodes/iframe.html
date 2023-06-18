@@ -1,8 +1,5 @@
 {{ $site := .Get `site` }}
+{{ $id := .Get `id` }}
 
-<iframe
-  id="gameoflife"
-  allowfullscreen
-  style="width:{{ default "800" (.Get `width`) }}px; height:{{ default "600" (.Get `height`) }}px"
-  src="{{ $site }}"
-></iframe>
+<iframe style="width:{{ default " 800px" (.Get `width`) }}; height:{{ default "600px" (.Get `height`) }}"
+    id="{{$id}}" allowfullscreen src="{{ $site }}"></iframe>
