@@ -10,7 +10,7 @@ In this case, TensorFlow is used to perform the convolution of the Game of Life 
 
 The code uses the convolution functionality of TensorFlow to convolve the Game of Life matrix with a specific kernel. The kernel is a three-dimensional matrix that defines the rules of survival and death for the cells in the game. Through convolution, a new matrix is obtained that represents the next generation of the game.
 
-### Detailed Explannation
+### Little Explannation
 
 In two dimensions we can make a convolution like the ones shown in [masking section](/showcase/docs/shortcodes/corte_1/masking/#kernel-convolution), this kind of convolution allow us to alter an image mixing the characteristics of a convolution kernel and the image itsefl. Each operation is made over every pixel of the image making possible to change the value of the pixel according to the values of the pixel in its surroundings, an example of a single operation is shown in the next image.
 
