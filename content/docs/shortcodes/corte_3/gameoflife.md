@@ -12,7 +12,7 @@ The code uses the convolution functionality of TensorFlow to convolve the Game o
 
 ### Detailed Explannation
 
-In two dimensions we can make a convolution like the ones shown in masking section, this kind of convolution allow us to alter an image mixing the characteristics of a convolution kernel and the image itsefl. Each operation is made over every pixel of the image making possible to change the value of the pixel according to the values of the pixel in its surroundings, an example of a single operation is shown in the next image.
+In two dimensions we can make a convolution like the ones shown in [masking section](/showcase/docs/shortcodes/corte_1/masking/#kernel-convolution), this kind of convolution allow us to alter an image mixing the characteristics of a convolution kernel and the image itsefl. Each operation is made over every pixel of the image making possible to change the value of the pixel according to the values of the pixel in its surroundings, an example of a single operation is shown in the next image.
 
 <div>
 <p style="text-align: center;">Figure 1: Kernel convolution</p>
