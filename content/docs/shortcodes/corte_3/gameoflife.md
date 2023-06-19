@@ -19,11 +19,12 @@ In two dimensions we can make a convolution like the ones shown in [masking sect
 <img id="classigConvolution" src="/showcase/sketches/convolution2d.png" width="auto" height="auto">
 </div>
 
-As shown we can create a convolution in which we can count the number of one's surrounding a specific "pixel". the process shown in figure 1 is calculated throw the next operation, basically the process consist in reshape the values of the matrices of shape 3x3 in vectors of shape (9x1) an make dot product with them.
+We can create a convolution in which we can count the number of one's surrounding a specific "pixel". the process shown in figure 1 is calculated throw the next operation, basically the process consist of reshaping the values of the matrices of shape 3x3 in vectors of shape (9x1) an make dot product with them.
 
-{{< highlight latex >}}
-    C_M = (1 x 1) + (0 x 1) + (0 x 1) + (0 x 1) + (1 x 0) + (1 x 1) + (1 x 1) + (0 x 1) + (0 x 1) = 3
-{{< /highlight >}}
+{{< katex display >}}
+    C_M = (1 \times 1) + (0 \times 1) + (0 \times 1) + (0 \times 1) + (1 \times 0) + (1 \times 1) + (1 \times 1) + (0 \times 1) + (0 \times 1) = 3
+{{< /katex >}}
+
 
 
 
