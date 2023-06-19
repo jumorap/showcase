@@ -7,6 +7,10 @@
 * [Complete code of the project here](https://github.com/ycuervob/gameoflife/)
 * [Git Hub page of the code here](https://ycuervob.github.io/gameoflife/)
 
+## About the game of life
+
+## Threejl
+
 ## TensorFlow js
 
 The code uses TensorFlow, an open-source library for machine learning and neural networks. TensorFlow offers a wide range of tools and functionalities for building and training machine learning models.
