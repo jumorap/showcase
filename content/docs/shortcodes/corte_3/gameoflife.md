@@ -19,15 +19,22 @@ In two dimensions we can make a convolution like the ones shown in [masking sect
 <img id="classigConvolution" src="/showcase/sketches/convolution2d.png" width="auto" height="auto">
 </div>
 
-We can create a convolution in which we can count the number of one's surrounding a specific "pixel". the process shown in figure 1 is calculated throw the next operation, basically the process consist of reshaping the values of the matrices of shape 3x3 in vectors of shape 9x1 an operate them with dot product.
+We can create a convolution in which we can count the number of one's surrounding a specific "pixel". the process shown in figure 1 is calculated throw a simple operation, basically the process consist of reshaping the values of the matrices of shape 3x3 in vectors of shape 9x1 an operate them with dot product.
 
 {{< katex display >}}
     C_M = (1 \times 1) + (0 \times 1) + (0 \times 1) + (0 \times 1) + (1 \times 0) + (1 \times 1) + (1 \times 1) + (0 \times 1) + (0 \times 1) = 3
 {{< /katex >}}
 
-Similarly, we can extrapolate this operation in two dimensions in three dimensions, imagina a kernel matrix not of shape 3x3 but of shape 3x3x3 such as the one in the Figure 2.
+Similarly, we can extrapolate this operation in two dimensions in three dimensions as well, imagine a kernel matrix not of shape 3x3 but one of shape 3x3x3 such as the one in the Figure 2 which has ones in every postion exept for the center.
 
 <div>
 <p style="text-align: center;">Figure 2: Kernel convolution 3 dimensions</p>
 <img style="display: block;margin-left: auto; margin-right: auto;width: 50%;" id="classigConvolution" src="/showcase/sketches/convolution3d.png" width="500px" height="500px">
+</div>
+
+Therefore, we can use a matrix of such characteristics to perform a similar operation like the one made in Figure 1, as shown in Figure 3.
+
+<div>
+<p style="text-align: center;">Figure 3: Convolution 3 dimensions</p>
+<img  id="classigConvolution" src="/showcase/sketches/convolution3dcomplete.png" width="auto" height="auto">
 </div>
