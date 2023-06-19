@@ -2,7 +2,12 @@
 
 {{<iframe id="gameoflife" site="https://ycuervob.github.io/gameoflife/" width="600px" height="600px" >}}
 
-## TensorFlow
+### Links of interest
+
+* [Complete code of the project here](https://github.com/ycuervob/gameoflife/)
+* [Git Hub page of the code here](https://ycuervob.github.io/gameoflife/)
+
+## TensorFlow js
 
 The code uses TensorFlow, an open-source library for machine learning and neural networks. TensorFlow offers a wide range of tools and functionalities for building and training machine learning models.
 
@@ -38,3 +43,30 @@ Therefore, we can use a matrix of such characteristics to perform a similar oper
 <p style="text-align: center;">Figure 3: Convolution 3 dimensions</p>
 <img  id="classigConvolution" src="/showcase/sketches/convolution3dcomplete.png" width="auto" height="auto">
 </div>
+
+### The power of TensorFlowjs
+
+An operation like the one shown in Figure 3, can be perform by making simple steps in node js or in browsers by the use of WEBGL that help us making operations faster thanks to GPU.
+
+```JavaScript
+    const tf = require('@tensorflow/tfjs');
+
+    // Define the binary input data
+    const inputData = tf.tensor5d(
+    [[[[[1, 0, 1], [0, 1, 0]], [[1, 0, 1], [0, 1, 0]]]]],
+    [1, 2, 2, 2, 1] // Shape: [batch, depth, height, width, channels]
+    );
+
+    // Define the binary kernel weights
+    const kernelWeights = tf.tensor5d(
+    [[[[[1, 0, 1], [0, 1, 0]], [[1, 0, 1], [0, 1, 0]]]]],
+    [1, 2, 2, 2, 1] // Shape: [filters, depth, height, width, channels]
+    );
+
+    // Perform the convolution
+    const convOutput = tf.conv3d(inputData, kernelWeights, 1, 'valid');
+
+    // Print the result
+    convOutput.print();
+
+```
