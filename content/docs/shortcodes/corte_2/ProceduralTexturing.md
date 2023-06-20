@@ -266,3 +266,7 @@ Click the different check boxes in the upper left corner to change the texture a
 - If none of the boolean variables are true, it defaults to the getWhiteColor function.
 8. Finally, the resulting color is assigned to gl_FragColor, which determines the pixel color for the fragment.
 
+
+# Vertex displacement
+
+{{< p5-iframe sketch="/showcase/sketches/vertex/sketch.js" width="500" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
