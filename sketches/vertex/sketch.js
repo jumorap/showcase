@@ -1,16 +1,16 @@
 let myShader;
 let noise;
 const images = [
-  "/showcase/sketches/shaders/vertex/noise-1.png",
-  "/showcase/sketches/shaders/vertex/noise-2.png",
-  "/showcase/sketches/shaders/vertex/noise-3.png",
-  "/showcase/sketches/shaders/vertex/noise-4.png",
-  "/showcase/sketches/shaders/vertex/noise-5.png",
+  "/showcase/sketches/vertex/noise-1.png",
+  "/showcase/sketches/vertex/noise-2.png",
+  "/showcase/sketches/vertex/noise-3.png",
+  "/showcase/sketches/vertex/noise-4.png",
+  "/showcase/sketches/vertex/noise-5.png",
 ];
 let currentImageIndex = 0;
 
 function preload() {
-  myShader = loadShader("/showcase/sketches/shaders/vertex/shader.vert", "/showcase/sketches/shaders/vertex/shader.frag");
+  myShader = loadShader("/showcase/sketches/vertex/shader.vert", "/showcase/sketches/vertex/shader.frag");
   noise = loadImage(images[0]);
 }
 
