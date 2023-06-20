@@ -270,3 +270,7 @@ Click the different check boxes in the upper left corner to change the texture a
 # Vertex displacement
 
 {{< p5-iframe sketch="/showcase/sketches/vertex/sketch.js" width="500" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
+
+# Matcap
+
+{{< p5-iframe sketch="/showcase/sketches/matcap/sketch.js" width="500" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}

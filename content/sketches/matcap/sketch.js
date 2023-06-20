@@ -7,15 +7,15 @@ let myShader;
 let matcap;
 
 const images = [
-  "matcap-1.png",
-  "matcap-2.png",
-  "matcap-3.png",
-  "matcap-4.png",
+  "/showcase/sketches/matcap/matcap-1.png",
+  "/showcase/sketches/matcap/matcap-2.png",
+  "/showcase/sketches/matcap/matcap-3.png",
+  "/showcase/sketches/matcap/matcap-4.png",
 ]
 let currentImageIndex = 0;
 
 function preload() {
-  myShader = loadShader("shader.vert", "shader.frag");
+  myShader = loadShader("/showcase/sketches/matcap/shader.vert", "/showcase/sketches/matcap/shader.frag");
 
   matcap = loadImage(images[0]);
 }
