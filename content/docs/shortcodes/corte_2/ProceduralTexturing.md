@@ -385,6 +385,11 @@ Press R to change the random texture.
 
 # Matcap
 
+Matcap, short for "material capture," is a shading technique commonly used in computer graphics to provide a simplified representation of materials on 3D models. It is primarily used for achieving realistic and consistent rendering of surfaces with complex lighting effects in a computationally efficient manner. The term "matcap" refers to a texture or image that captures the appearance of a material under specific lighting conditions.
+
+This example was adapted from the example provided by: Adam Ferris
+
+And shows four different matcap textures applied to a cylinder, to change theme press the R key.
 
 {{< details title="Sketch.js" open=false >}}
 {{< highlight Java >}}
