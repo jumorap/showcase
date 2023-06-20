@@ -269,6 +269,10 @@ Click the different check boxes in the upper left corner to change the texture a
 
 # Vertex displacement
 
+Vertex displacement is a technique in computer graphics that involves altering the positions of vertices in a 3D mesh to create deformations or transformations. It allows for the dynamic modification of the geometry of an object without changing its underlying mesh structure. By applying displacement maps or procedural algorithms, the positions of vertices can be adjusted based on factors such as texture information or mathematical functions. This technique is commonly used to add intricate details and realistic surface deformations to objects, such as wrinkles, ripples, or bumps.
+
+This code was adapted from the example provided by: Adam Ferris https://github.com/aferriss/p5jsShaderExamples
+
 {{< details title="Sketch.js" open=false >}}
 {{< highlight Java >}}
 
@@ -374,9 +378,130 @@ void main() {
 {{< /highlight >}}
 {{< /details >}}
 
+Press R to change the random texture.
+
 
 {{< p5-iframe sketch="/showcase/sketches/vertex/sketch.js" width="500" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
 
 # Matcap
+
+
+{{< details title="Sketch.js" open=false >}}
+{{< highlight Java >}}
+// A matcap shader is a shader that is used to approximate how a material might reflect light.
+// Instead of creating a rendering pipeline with lights, you just give your shader a "matcap" texture
+// All matcap textures are, are a material rendered on a sphere. This gives us a guess of how light might fall
+// on any gived surface of a mesh.
+
+let myShader;
+let matcap;
+
+const images = [
+  "/showcase/sketches/matcap/matcap-1.png",
+  "/showcase/sketches/matcap/matcap-2.png",
+  "/showcase/sketches/matcap/matcap-3.png",
+  "/showcase/sketches/matcap/matcap-4.png",
+]
+let currentImageIndex = 0;
+
+function preload() {
+  myShader = loadShader("/showcase/sketches/matcap/shader.vert", "/showcase/sketches/matcap/shader.frag");
+
+  matcap = loadImage(images[0]);
+}
+
+function setup() {
+  createCanvas(windowWidth, windowHeight, WEBGL);
+  noStroke();
+}
+
+function draw() {
+  background(0);
+  shader(myShader);
+
+  myShader.setUniform("uMatcapTexture", matcap);
+  orbitControl();
+  cylinder(width / 10, width / 5, 24, 24, true, true);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+function keyPressed() {
+  if (key === "r" || key === "R") {
+    currentImageIndex++;
+    if (currentImageIndex >= images.length) {
+      currentImageIndex = 0;
+    }
+    matcap = loadImage(images[currentImageIndex]);
+  }
+}
+
+
+{{< /highlight >}}
+{{< /details >}}
+
+
+
+{{< details title="shader.vert" open=false >}}
+{{< highlight Java >}}
+
+// Get the position attribute of the geometry
+attribute vec3 aPosition;
+
+// Get the texture coordinate attribute from the geometry
+attribute vec2 aTexCoord;
+
+// Get the vertex normal attribute from the geometry
+attribute vec3 aNormal;
+
+// When we use 3d geometry, we need to also use some builtin variables that p5 provides
+// Most 3d engines will provide these variables for you. They are 4x4 matrices that define
+// the camera position / rotation, and the geometry position / rotation / scale
+// There are actually 3 matrices, but two of them have already been combined into a single one
+// This pre combination is an optimization trick so that the vertex shader doesn't have to do as much work
+
+// uProjectionMatrix is used to convert the 3d world coordinates into screen coordinates 
+uniform mat4 uProjectionMatrix;
+
+// uModelViewMatrix is a combination of the model matrix and the view matrix
+// The model matrix defines the object position / rotation / scale
+// Multiplying uModelMatrix * vec4(aPosition, 1.0) would move the object into it's world position
+
+// The view matrix defines attributes about the camera, such as focal length and camera position
+// Multiplying uModelViewMatrix * vec4(aPosition, 1.0) would move the object into its world position in front of the camera
+uniform mat4 uModelViewMatrix;
+
+
+// The normalmatrix is the transpose-inverse of the modelview matrix. 
+// It's currently broken in p5, but this is what you should normally use in these calculations
+uniform mat4 uNormalMatrix;
+
+// We will pass the normal and the eye to the fragment shader
+varying vec3 vNormal;
+varying vec3 vEye;
+
+void main() {
+
+  // We need to calculate the world space eye position, and the world space normal
+  vEye = normalize( vec3(uModelViewMatrix * vec4(aPosition, 1.0)));
+
+  // Typically you would use uNormalMatrix instead of uModelViewMatrix but currently there is a bug in uNormalMatrix
+  // uModelViewMatrix will work fine here unless you are doing some non-uniform scaling
+  vNormal = normalize((uModelViewMatrix * vec4(aNormal, 0.0)).xyz);
+
+  // copy the position data into a vec4, using 1.0 as the w component
+  vec4 positionVec4 = vec4(aPosition, 1.0);
+
+  // Move our vertex positions into screen space
+  // The order of multiplication is always projection * view * model * position
+  // In this case model and view have been combined so we just do projection * modelView * position
+  gl_Position = uProjectionMatrix * uModelViewMatrix * positionVec4;
+}
+{{< /highlight >}}
+{{< /details >}}
+
+Press R to change the matcap texture.
 
 {{< p5-iframe sketch="/showcase/sketches/matcap/sketch.js" width="500" height="400" lib1="https://cdn.jsdelivr.net/gh/VisualComputing/p5.treegl/p5.treegl.min.js">}}
