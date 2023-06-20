@@ -1,6 +1,6 @@
 # Game Of Life 3D
 
-{{<iframe id="gameoflife" site="https://ycuervob.github.io/gameoflife/" width="600px" height="600px" >}}
+{{<iframe id="gameoflife" site="https://ycuervob.github.io/gameoflife/" width="720px" height="720px" >}}
 
 {{< details title="sketch.js" open=false >}}
 {{< highlight JavaScript >}}
@@ -572,6 +572,117 @@ In the context of GPS navigation, specific cartographic projections are used to 
 
 In the Game of Life, a similar process takes place, where it is important to understand that the automata do not actually teleport, but rather move on a three-dimensional structure. In this case, the plane they operate on is a torus, a donut-shaped object, where the automata move in circular trajectories inward and outward (not up and down), as well as around the surface of the torus (not from left to right).
 
+<p style="text-align: center;">Example 1: Classic Game of Life in a finite world</p>
+With this, let's play with the Game of Life as a two-dimensional projection of a three-dimensional torus. In this case, the automata move in circular trajectories inward and outward (not up and down), as well as around the surface of the torus (not from left to right). <b>You can create new automatas by clicking on the grid.</b>
+
+{{< p5-iframe sketch="/showcase/sketches/gameOfLife.js" width="724" height="724" >}}
+
+{{< details title="GameOfLife2D.js" open=false >}}
+{{< highlight JavaScript >}}
+// Define the grid
+const CELL_SIZE = 14;
+const ROWS = 50;
+const COLS = 50;
+let grid = [];
+let newGrid = [];
+
+// Define the generation counter
+let generation = 0;
+
+function setup() {
+createCanvas(COLS * CELL_SIZE, ROWS * CELL_SIZE);
+
+    // Initialize the grid randomly
+    for (let i = 0; i < ROWS; i++) {
+        grid[i] = [];
+        for (let j = 0; j < COLS; j++) {
+            grid[i][j] = floor(random(2));
+        }
+    }
+}
+
+function draw() {
+background(255);
+drawCells();
+updateGrid();
+
+    grid = newGrid;
+
+    // Increment the generation counter
+    generation++;
+    fill(0);
+    text(`Generation: ${generation}`, 10, height - 10);
+}
+
+/**
+* Draw the cells of the grid to the screen
+  */
+  const drawCells = () => {
+  for (let i = 0; i < ROWS; i++) {
+  for (let j = 0; j < COLS; j++) {
+  if (grid[i][j] === 1) {
+  fill(0);
+  } else {
+  fill(255);
+  }
+  rect(j * CELL_SIZE, i * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+  }
+  }
+  }
+
+/**
+* Update the grid to the next generation of cells
+  */
+  const updateGrid = () => {
+  newGrid = [];
+  for (let i = 0; i < ROWS; i++) {
+  newGrid[i] = [];
+  for (let j = 0; j < COLS; j++) {
+  let state = grid[i][j];
+  let neighbors = countNeighbors(grid, i, j);
+  if (state === 0 && neighbors === 3) {
+  newGrid[i][j] = 1;
+  } else if (state === 1 && (neighbors < 2 || neighbors > 3)) {
+  newGrid[i][j] = 0;
+  } else {
+  newGrid[i][j] = state;
+  }
+  }
+  }
+  }
+
+/**
+* Count the number of neighbors at a given grid position that are alive
+* @param grid The grid to count neighbors in
+* @param x The x position of the cell to count neighbors of
+* @param y The y position of the cell to count neighbors of
+* @returns {number} The number of neighbors that are alive
+  */
+  const countNeighbors = (grid, x, y) => {
+  let count = 0;
+  for (let i = -1; i <= 1; i++) {
+  for (let j = -1; j <= 1; j++) {
+  let row = (x + i + ROWS) % ROWS;
+  let col = (y + j + COLS) % COLS;
+  count += grid[row][col];
+  }
+  }
+  count -= grid[x][y];
+  return count;
+  }
+
+/**
+* Handle mouse clicks to toggle cells
+  */
+  function mouseClicked() {
+  let i = floor(mouseY / CELL_SIZE);
+  let j = floor(mouseX / CELL_SIZE);
+  grid[i][j] = (grid[i][j] === 0) ? 1 : 0;
+  }
+
+{{< /highlight >}}
+{{< /details >}}
+
 This peculiar configuration gives rise to interesting and recurring patterns in the Game of Life. As the automata interact and reproduce according to the rules of the game, patterns emerge that evolve over time. These patterns can take on complex geometric forms, such as static blocks, periodic oscillators, or even space-faring ships that move around the torus.
 <div>
 <p style="text-align: center;">Figure 2: Game of life torus - basic animation</p>
@@ -606,15 +717,28 @@ Similar to the Game of Life, where finite automata can move freely within a boun
 
 This exploration of geometry and the representation of four-dimensional objects leads us to reflect on the possibilities and challenges posed by understanding reality beyond our limited perceptual dimensions. The study of the hyper-torus and its intrinsic movement encourages us to consider the implications of higher dimensions and how they influence the dynamics and interactions of objects.
 
-## Three.js
+## p5.treegl
 
-Three.js is a JavaScript library that is utilized in the mentioned project for rendering 3D graphics and creating interactive visualizations. It provides a set of powerful tools and functions for working with WebGL, a web-based graphics API that enables hardware-accelerated 3D rendering in modern browsers.
 
-In the context of the project, Three.js is used to visualize the projection of the hyper-torus as a cube, which is the three-dimensional representation of the four-dimensional Game of Life. By leveraging Three.js, the project can create a dynamic and immersive environment where users can observe and interact with the evolving patterns within the hyper-torus as a cube.
+p5.treegl is a powerful JavaScript library that plays a crucial role in the Game of Life 3D project. It provides the necessary tools and functionalities for rendering 3D graphics, allowing for the immersive visualization of the hyper-torus projection as a cube. The integration of p5.treegl enhances the user experience and enables interactive exploration of the evolving patterns within the Game of Life 3D.
 
-With Three.js, it becomes possible to render complex geometries, apply materials and textures, manipulate camera perspectives, and add lighting effects to enhance the visual experience. The library offers a high-level abstraction, making it easier to work with 3D graphics in the browser without directly dealing with the lower-level WebGL API.
+One of the main advantages of using p5.treegl in this project is its ability to create complex 3D scenes with ease. The library simplifies the process of creating and manipulating 3D objects, making it more accessible for developers to generate visually appealing and interactive content. By leveraging p5.treegl's intuitive syntax and extensive documentation, developers can focus on designing and implementing the visual aspects of the Game of Life 3D without getting bogged down in low-level graphics programming.
 
-By combining TensorFlow.js for the computational aspects of the Game of Life and Three.js for the visualization, the project can provide an engaging and interactive representation of the evolution of automata within the hyper-torus. It allows users to explore the fascinating patterns and dynamics that emerge from this mathematical simulation in a visually appealing and intuitive manner.
+p5.treegl also provides a variety of lighting and shading options, enabling the creation of realistic and visually striking scenes. With proper lighting techniques, the hyper-torus projection can be effectively illuminated, highlighting its intricate patterns and geometries. This adds depth and realism to the visualization, enhancing the overall immersive experience for the user.
+
+Additionally, p5.treegl supports user interaction and interactivity, allowing users to navigate and manipulate the 3D environment. Through mouse and keyboard input, users can rotate, zoom, and pan the visualization, providing a dynamic and engaging platform for exploring the evolving patterns within the Game of Life 3D. This interactivity fosters a sense of discovery and empowers users to investigate the intricacies of the hyper-torus projection from different perspectives.
+
+Furthermore, p5.treegl seamlessly integrates with other components of the p5.js ecosystem, such as p5.js itself, which is a popular JavaScript library for creative coding. This integration allows developers to leverage the extensive capabilities of p5.js for handling user input, animations, and other interactive elements, while simultaneously benefiting from p5.treegl's 3D rendering capabilities. The combination of these libraries provides a powerful toolkit for creating interactive and visually appealing simulations like the Game of Life 3D.
+
+## p5.EasyCam
+
+p5.EasyCam plays a significant role in the Game of Life 3D project by enabling intuitive camera control and navigation within the 3D environment. It provides essential functionalities for manipulating the camera's position, orientation, and movement, enhancing the user experience and facilitating exploration of the evolving patterns within the Game of Life 3D.
+
+One of the key benefits of using p5.EasyCam is its ability to simplify camera control. With p5.EasyCam, developers can easily implement mouse and keyboard interactions to pan, rotate, and zoom the camera, allowing users to navigate the 3D space effortlessly. This intuitive control scheme enables users to explore the hyper-torus projection from different angles and perspectives, enhancing their understanding and engagement with the simulation.
+
+p5.EasyCam also supports smooth camera transitions and animations. Developers can define specific camera movements and paths, allowing for dynamic and cinematic visual effects. These animations can be used to highlight specific patterns or behaviors within the Game of Life 3D, guiding the user's attention and creating a more immersive and captivating experience. Furthermore, p5.EasyCam seamlessly integrates with the p5.js ecosystem, making it compatible with other p5.js functionalities and libraries. This integration enables developers to leverage the extensive capabilities of p5.js for handling user input, event-driven animations, and interactivity. By combining p5.EasyCam with other p5.js features, developers have a powerful toolkit for creating interactive and visually compelling simulations.
+
+Another advantage of p5.EasyCam is its ability to save and load camera viewpoints. This feature allows users to bookmark specific camera positions and orientations, enabling them to revisit interesting perspectives or share their viewpoints with others. Saving and loading camera viewpoints enhances the collaborative and exploratory aspects of the Game of Life 3D, enabling users to exchange insights and discoveries.
 
 ## TensorFlow.js
 
@@ -684,14 +808,14 @@ In conclusion, the Game of Life 3D project, inspired by the fascinating ideas pr
 
 By extending John Horton Conway's original Game of Life into a three-dimensional projection of a four-dimensional hyper-torus, the project pushes the boundaries of our spatial perception and invites us to contemplate the nature of reality itself. Just as Wilczek challenges us to envision beings existing in dimensions beyond our own, the Game of Life 3D provides a glimpse into a world where automata freely navigate within the confines of a toroidal structure.
 
-Through the use of technologies such as Three.js and TensorFlow.js, the project leverages the power of web-based graphics rendering and machine learning to create an immersive and interactive experience. Users can observe and interact with the evolving patterns within the hyper-torus as a cube, gaining insights into the complex dynamics and intricate geometries that emerge.
+Through the use of technologies such as p5.treegl.js and TensorFlow.js, the project leverages the power of web-based graphics rendering and machine learning to create an immersive and interactive experience. Users can observe and interact with the evolving patterns within the hyper-torus as a cube, gaining insights into the complex dynamics and intricate geometries that emerge.
 
 The project serves as a testament to the profound influence of mathematics and geometry on our understanding of the universe. By exploring the behavior of automata within the hyper-torus, it sheds light on the intrinsic connections between dimensions, patterns, and the underlying fabric of reality. It encourages us to expand our mental horizons and contemplate the existence of higher dimensions that may shape our perception and interactions with the world.
 
 In essence, the Game of Life 3D project, inspired by the visionary ideas of Frank Wilczek, not only provides an engaging and visually appealing simulation but also serves as a catalyst for deeper reflections on the nature of our reality and the hidden dimensions that may lie beyond our current understanding.
 
 1. The Game of Life 3D project explores the fascinating possibilities of extending the traditional Game of Life to a three-dimensional space. By projecting the game onto a hyper-torus, which is a four-dimensional figure, the project introduces new dynamics and patterns that emerge from the interaction of automata within this multidimensional environment.
-2. The use of Three.js, a powerful JavaScript library for 3D rendering, allows for the visualization of the hyper-torus projection as a cube. This immersive visualization enhances the user experience and provides a dynamic and interactive platform to observe and explore the evolving patterns within the Game of Life 3D.
+2. The use of p5.treegl, a powerful JavaScript library for 3D rendering, allows for the visualization of the hyper-torus projection as a cube. This immersive visualization enhances the user experience and provides a dynamic and interactive platform to observe and explore the evolving patterns within the Game of Life 3D.
 3. TensorFlow.js, an open-source library for machine learning and neural networks, plays a crucial role in the project by performing the convolution of the Game of Life matrix. Convolution is a mathematical process used to apply the rules of the game and determine the state of each cell in the next generation. By leveraging the convolution functionality of TensorFlow.js, the project achieves efficient computation and accurate simulation of the game's evolution.
 4. The concept of higher dimensions, as explored in the project, challenges our perception of reality and encourages us to think beyond our familiar three-dimensional world. By visualizing and interacting with the hyper-torus projection, we gain insights into the intricate dynamics that arise from additional dimensions and how they influence the behavior of automata in the Game of Life.
 5. The Game of Life 3D project demonstrates the power of combining mathematical concepts, computational tools, and interactive visualization to create engaging simulations. It showcases the potential of using innovative approaches to explore complex systems and patterns, stimulating curiosity and deeper understanding of mathematical and scientific principles.
